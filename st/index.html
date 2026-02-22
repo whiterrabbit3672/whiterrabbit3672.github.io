@@ -1,0 +1,613 @@
+<!--
+  HarmonyMagic StartPage
+  Copyright (C) 2026 anjisuan608 <anjisuan608@petalmail.com> and contributors
+  Copyright (C) 2026 Whiterrabbit <379126402@qq.com> and contributors
+
+  SPDX-License-Identifier: GPL-3.0-or-later
+
+  This program is free software: you can redistribute it and/or modify
+  it under the terms of the GNU General Public License as published by
+  the Free Software Foundation, either version 3 of the License, or
+  (at your option) any later version.
+
+  Full license: ./LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt
+-->
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="HarmonyMagic - 一个简洁高效的浏览器起始页">
+    <meta name="keywords" content="起始页,浏览器首页,搜索,网址导航">
+    <meta property="og:title" content="HarmonyMagic 起始页">
+    <meta property="og:description" content="一个简洁高效的浏览器起始页">
+    <title>HarmonyMagic起始页 - Whiterrabbit Edition</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="bg-blur-overlay"></div>
+
+    <!-- 设置菜单 -->
+    <div id="settings" class="settings">
+        <div id="settings-button" class="settings-button">
+            <svg t="1768899575497" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="5732" width="20" height="20"><path d="M878.08 466.944l-129.3824-253.0816a98.8672 98.8672 0 0 0-88.064-53.8624H366.08c-36.864 0-70.656 20.48-87.6544 53.1456l-132.096 253.0816a98.8672 98.8672 0 0 0 0 91.5456l132.096 253.0816a98.8672 98.8672 0 0 0 87.6544 53.1456h294.5536c37.1712 0 71.168-20.7872 88.064-53.8624l129.3824-253.1328a98.8672 98.8672 0 0 0 0-90.0096z m-72.3968 372.3264a162.8672 162.8672 0 0 1-145.0496 88.7296H366.08a162.8672 162.8672 0 0 1-144.384-87.552l-132.096-253.0816a162.8672 162.8672 0 0 1 0-150.7328l132.096-253.1328a162.8672 162.8672 0 0 1 144.384-87.5008h294.5536c61.184 0 117.1968 34.304 145.0496 88.7296l129.3824 253.1328c23.808 46.592 23.808 101.7344 0 148.2752l-129.3824 253.1328z" fill="#7a7a7a" p-id="5733"></path><path d="M512 697.6a185.6 185.6 0 1 1 0-371.2 185.6 185.6 0 0 1 0 371.2z m0-64a121.6 121.6 0 1 0 0-243.2 121.6 121.6 0 0 0 0 243.2z" fill="#7a7a7a" p-id="5734"></path></svg>
+        </div>
+        <!-- 下拉菜单 -->
+        <div id="settings-dropdown" class="settings-dropdown">
+            <div class="settings-menu-item" data-action="general">
+                <div class="settings-menu-icon">
+                    <svg t="1768899575497" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="5732" width="20" height="20"><path d="M878.08 466.944l-129.3824-253.0816a98.8672 98.8672 0 0 0-88.064-53.8624H366.08c-36.864 0-70.656 20.48-87.6544 53.1456l-132.096 253.0816a98.8672 98.8672 0 0 0 0 91.5456l132.096 253.0816a98.8672 98.8672 0 0 0 87.6544 53.1456h294.5536c37.1712 0 71.168-20.7872 88.064-53.8624l129.3824-253.1328a98.8672 98.8672 0 0 0 0-90.0096z m-72.3968 372.3264a162.8672 162.8672 0 0 1-145.0496 88.7296H366.08a162.8672 162.8672 0 0 1-144.384-87.552l-132.096-253.0816a162.8672 162.8672 0 0 1 0-150.7328l132.096-253.1328a162.8672 162.8672 0 0 1 144.384-87.5008h294.5536c61.184 0 117.1968 34.304 145.0496 88.7296l129.3824 253.1328c23.808 46.592 23.808 101.7344 0 148.2752l-129.3824 253.1328z" fill="#7a7a7a" p-id="5733"></path><path d="M512 697.6a185.6 185.6 0 1 1 0-371.2 185.6 185.6 0 0 1 0 371.2z m0-64a121.6 121.6 0 1 0 0-243.2 121.6 121.6 0 0 0 0 243.2z" fill="#7a7a7a" p-id="5734"></path></svg>
+                </div>
+                <span>常规设置</span>
+            </div>
+            <div class="settings-menu-item" data-action="search-engine">
+                <div class="settings-menu-icon">
+                    <svg t="1766328430081" class="icon" viewBox="0 0 1035 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="37846" width="20" height="20"><path d="M1013.852766 1011.332492a42.225028 42.225028 0 0 1-59.70619 0L702.316509 759.502424a428.900723 428.900723 0 1 1 133.958901-196.00858 41.718328 41.718328 0 0 1-4.919216 14.166497c-1.330088 3.61024-2.385714 7.347155-3.800252 10.91517l-2.385714-2.385714a42.225028 42.225028 0 0 1-72.690386-29.13527l-0.380025-3.905815a41.950565 41.950565 0 0 1 11.379645-28.670794l-3.926928-3.905815a336.976836 336.976836 0 1 0-88.123633 150.764463 6.333754 6.333754 0 0 0 0.612262-0.928951l61.120729 1.055626 145.254096 145.232984 0.274463-0.274463 135.12009 135.12009a42.225028 42.225028 0 0 1 0.042225 59.79064z" fill="#7a7a7a" p-id="37847"></path></svg>
+                </div>
+                <span>搜索引擎设置</span>
+            </div>
+            <div class="settings-menu-item" data-action="appearance">
+                <div class="settings-menu-icon">
+                    <svg t="1769007351921" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="7106" width="20" height="20"><path d="M950.869333 73.130667H73.130667s-36.565333 0-36.565334 36.565333V914.346667c0 36.565333 36.565333 36.565333 36.565334 36.565333h877.738666s36.565333 0 36.565334-36.565333V109.653333s0-36.565333-36.565334-36.565333z m-36.565333 804.565333H109.653333V146.346667H914.346667V877.653333zM292.565333 402.346667a73.130667 73.130667 0 1 0 0-146.346667 73.130667 73.130667 0 0 0 0 146.346667z m365.738667-21.333334l-216.746667 328.277334-112.426666-167.594667-182.826667 281.173333H877.653333L658.346667 381.013333z" fill="#7a7a7a" p-id="7107"></path></svg>
+                </div>
+                <span>壁纸设置</span>
+            </div>
+            <div class="settings-menu-item" data-action="history-settings">
+                <div class="settings-menu-icon">
+                    <svg t="1771051950424" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2045" width="20" height="20"><path d="M480 0C214.9 0 0 214.9 0 480s214.9 480 480 480 480-214.9 480-480S745.1 0 480 0z m0 896C250.6 896 64 709.4 64 480S250.6 64 480 64s416 186.6 416 416-186.6 416-416 416z" fill="#7a7a7a" p-id="2046"></path><path d="M512 192h-64v320h320v-64H512z" fill="#7a7a7a" p-id="2047"></path></svg>
+                </div>
+                <span>历史记录设置</span>
+            </div>
+            <div class="settings-menu-item" data-action="about">
+                <div class="settings-menu-icon">
+                    <svg t="1769007386374" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="8114" width="20" height="20"><path d="M512 64c247.424 0 448 200.576 448 448s-200.576 448-448 448S64 759.424 64 512 264.576 64 512 64z m0 85.333333C311.701333 149.333333 149.333333 311.701333 149.333333 512s162.368 362.666667 362.666667 362.666667 362.666667-162.368 362.666667-362.666667S712.298667 149.333333 512 149.333333z m21.333333 277.333334a21.333333 21.333333 0 0 1 21.333334 21.333333v298.666667a21.333333 21.333333 0 0 1-21.333334 21.333333h-42.666666a21.333333 21.333333 0 0 1-21.333334-21.333333V448a21.333333 21.333333 0 0 1 21.333334-21.333333h42.666666z m0-170.666667a21.333333 21.333333 0 0 1 21.333334 21.333333v42.666667a21.333333 21.333333 0 0 1-21.333334 21.333333h-42.666666a21.333333 21.333333 0 0 1-21.333334-21.333333v-42.666667a21.333333 21.333333 0 0 1 21.333334-21.333333h42.666666z" fill="#7a7a7a" p-id="8115"></path></svg>
+                </div>
+                <span>关于</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- 壁纸设置面板 -->
+    <div id="wallpaper-panel" class="settings-modal">
+        <div class="settings-modal-overlay"></div>
+        <div class="settings-modal-content">
+            <div class="settings-header">
+                <span class="settings-title">壁纸设置</span>
+                <div class="wallpaper-header-btns">
+                    <button id="wallpaper-reset" class="settings-reset-btn" title="重置为默认壁纸">重置</button>
+                    <div id="wallpaper-close" class="settings-close">
+                        <svg t="1768962858078" class="icon" viewBox="0 0 1070 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="5514" width="20" height="20"><path d="M50.368584 96.533526l30.769579 30.77162 82.037931 82.03793 117.900068 117.900068 138.353952 138.353953 143.399585 143.397544 133.036963 133.036963 107.268128 107.268129 66.091042 66.093081 13.582195 13.580155c12.576334 12.576334 33.589257 12.576334 46.165591 0s12.576334-33.589257 0-46.165591l-30.76958-30.769579-82.03793-82.039971-117.900068-117.898028-138.353953-138.353952-143.397544-143.399585-133.036963-133.036963-107.268128-107.268128L110.11433 63.950131l-13.582196-13.580156c-12.576334-12.578374-33.589257-12.578374-46.165591 0-12.576334 12.576334-12.576334 33.587217 0.002041 46.163551z" fill="" p-id="5515"></path><path d="M882.805987 50.369975l-30.76958 30.76958-82.03997 82.03793-117.898028 117.900068-138.353953 138.353953-143.399584 143.399584-133.036963 133.036963-107.268129 107.268129a2018478.867876 2018478.867876 0 0 1-66.093081 66.091041l-13.580156 13.582196c-12.578374 12.576334-12.578374 33.589257 0 46.165591 12.576334 12.576334 33.589257 12.576334 46.165591 0l30.77162-30.76958 82.037931-82.03793 117.900068-117.900068 138.353952-138.353953 143.397545-143.397544 133.036962-133.036963 107.268129-107.268129 66.093081-66.091041 13.580156-13.582196c12.576334-12.576334 12.576334-33.589257 0-46.16559-12.578374-12.580414-33.589257-12.580414-46.165591-0.002041z" fill="" p-id="5516"></path></svg>
+                    </div>
+                </div>
+            </div>
+            <div class="wallpaper-body">
+                <!-- 自定义壁纸区域 -->
+                <div class="wallpaper-section">
+                    <div class="wallpaper-section-label">自定义</div>
+                    <div class="wallpaper-custom-row">
+                        <!-- 预览图 -->
+                        <div class="wallpaper-preview">
+                            <div id="wallpaper-preview-img" class="wallpaper-preview-img no-bg">
+                                <svg class="wallpaper-placeholder-icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="7106" width="48" height="48"><path d="M950.869333 73.130667H73.130667s-36.565333 0-36.565334 36.565333V914.346667c0 36.565333 36.565333 36.565333 36.565334 36.565333h877.738666s36.565333 0 36.565334-36.565333V109.653333s0-36.565333-36.565334-36.565333z m-36.565333 804.565333H109.653333V146.346667H914.346667V877.653333zM292.565333 402.346667a73.130667 73.130667 0 1 0 0-146.346667 73.130667 73.130667 0 0 0 0 146.346667z m365.738667-21.333334l-216.746667 328.277334-112.426666-167.594667-182.826667 281.173333H877.653333L658.346667 381.013333z" fill="#999999" p-id="7107"></path></svg>
+                            </div>
+                        </div>
+                        <!-- 选项按钮 -->
+                        <div class="wallpaper-custom-options">
+                            <div class="wallpaper-option-tabs">
+                                <button class="wallpaper-tab-btn active" data-tab="local">本地图片</button>
+                                <button class="wallpaper-tab-btn" data-tab="online">在线图片</button>
+                            </div>
+                            <!-- 本地图片选项 -->
+                            <div class="wallpaper-tab-content active" id="wallpaper-tab-local">
+                                <input type="text" id="wallpaper-local-url" class="wallpaper-input" placeholder="点击浏览按钮选择壁纸" readonly aria-label="本地壁纸路径">
+                                <input type="file" id="wallpaper-local-file" class="wallpaper-file-input" accept="image/*" aria-label="选择本地壁纸文件">
+                                <button id="wallpaper-local-browse" class="wallpaper-browse-btn" aria-label="浏览本地文件">浏览</button>
+                            </div>
+                            <!-- 在线图片选项 -->
+                            <div class="wallpaper-tab-content" id="wallpaper-tab-online">
+                                <input type="url" id="wallpaper-online-url" class="wallpaper-input" placeholder="https://..." aria-label="在线壁纸URL">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- 预设壁纸区域 -->
+                <div class="wallpaper-section">
+                    <div class="wallpaper-section-label">预设</div>
+                    <div class="wallpaper-presets" id="wallpaper-presets-container">
+                        <!-- 预设壁纸由 JS 从 wallpaper.xml 动态加载 -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 设置菜单弹窗 -->
+    <div id="settings-modal" class="settings-modal">
+        <div class="settings-modal-overlay"></div>
+        <div class="settings-modal-content">
+            <div class="settings-header">
+                <span class="settings-title">常规设置</span>
+                <div id="settings-close" class="settings-close">
+                    <svg t="1768962858078" class="icon" viewBox="0 0 1070 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="5514" width="20" height="20"><path d="M50.368584 96.533526l30.769579 30.77162 82.037931 82.03793 117.900068 117.900068 138.353952 138.353953 143.399585 143.397544 133.036963 133.036963 107.268128 107.268129 66.091042 66.093081 13.582195 13.580155c12.576334 12.576334 33.589257 12.576334 46.165591 0s12.576334-33.589257 0-46.165591l-30.76958-30.769579-82.03793-82.039971-117.900068-117.898028-138.353953-138.353952-143.397544-143.399585-133.036963-133.036963-107.268128-107.268128L110.11433 63.950131l-13.582196-13.580156c-12.576334-12.578374-33.589257-12.578374-46.165591 0-12.576334 12.576334-12.576334 33.587217 0.002041 46.163551z" fill="" p-id="5515"></path><path d="M882.805987 50.369975l-30.76958 30.76958-82.03997 82.03793-117.898028 117.900068-138.353953 138.353953-143.399584 143.399584-133.036963 133.036963-107.268129 107.268129a2018478.867876 2018478.867876 0 0 1-66.093081 66.091041l-13.580156 13.582196c-12.578374 12.576334-12.578374 33.589257 0 46.165591 12.576334 12.576334 33.589257 12.576334 46.165591 0l30.77162-30.76958 82.037931-82.03793 117.900068-117.900068 138.353952-138.353953 143.397545-143.397544 133.036962-133.036963 107.268129-107.268129 66.093081-66.091041 13.580156-13.582196c12.576334-12.576334 12.576334-33.589257 0-46.16559-12.578374-12.580414-33.589257-12.580414-46.165591-0.002041z" fill="" p-id="5516"></path></svg>
+                </div>
+            </div>
+            <div class="settings-body">
+                <!-- 深色模式开关（跟随系统） -->
+                <div class="setting-item" data-setting="dark-mode-toggle">
+                    <span class="setting-item-text">深色模式</span>
+                    <span class="setting-item-value" id="dark-mode-value">跟随系统</span>
+                </div>
+                <div class="setting-item" data-setting="auto-wallpaper">
+                    <span class="setting-item-text">背景模糊</span>
+                    <span class="status-indicator enabled">
+                        <svg class="status-icon" viewBox="0 0 2048 1024"></svg>
+                    </span>
+                </div>
+                <div class="setting-item" data-setting="dark-mode">
+                    <span class="setting-item-text">背景滤镜</span>
+                    <span class="status-indicator enabled">
+                        <svg class="status-icon" viewBox="0 0 2048 1024"></svg>
+                    </span>
+                </div>
+                <div class="setting-item setting-item-action" data-setting="reset-shortcuts">
+                    <span class="setting-item-text">重置快捷访问</span>
+                </div>
+                <div class="setting-item setting-item-action" data-setting="reset-search-engines">
+                    <span class="setting-item-text">重置搜索引擎</span>
+                </div>
+                <div class="setting-item setting-item-action" data-setting="reset-wallpaper">
+                    <span class="setting-item-text">重置为默认壁纸</span>
+                </div>
+                <div class="setting-item setting-item-action" data-setting="clear-site-data">
+                    <span class="setting-item-text">清空设备端网站数据</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 搜索引擎设置面板 -->
+    <div id="search-engine-panel" class="settings-modal">
+        <div class="settings-modal-overlay"></div>
+        <div class="settings-modal-content">
+            <div class="settings-header">
+                <span class="settings-title">搜索引擎设置</span>
+                <div class="search-engine-header-btns">
+                    <button id="search-engine-reset" class="settings-reset-btn" title="删除所有自定义引擎和排序设置">重置</button>
+                    <button id="search-engine-restore" class="settings-reset-btn" title="恢复默认排序">还原</button>
+                    <button id="search-engine-add" class="settings-reset-btn" title="添加搜索引擎">添加</button>
+                    <div id="search-engine-close" class="settings-close">
+                        <svg t="1768962858078" class="icon" viewBox="0 0 1070 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="5514" width="20" height="20"><path d="M50.368584 96.533526l30.769579 30.77162 82.037931 82.03793 117.900068 117.900068 138.353952 138.353953 143.399585 143.397544 133.036963 133.036963 107.268128 107.268129 66.091042 66.093081 13.582195 13.580155c12.576334 12.576334 33.589257 12.576334 46.165591 0s12.576334-33.589257 0-46.165591l-30.76958-30.769579-82.03793-82.039971-117.900068-117.898028-138.353953-138.353952-143.397544-143.399585-133.036963-133.036963-107.268128-107.268128L110.11433 63.950131l-13.582196-13.580156c-12.576334-12.578374-33.589257-12.578374-46.165591 0-12.576334 12.576334-12.576334 33.587217 0.002041 46.163551z" fill="" p-id="5515"></path><path d="M882.805987 50.369975l-30.76958 30.76958-82.03997 82.03793-117.898028 117.900068-138.353953 138.353953-143.399584 143.399584-133.036963 133.036963-107.268129 107.268129a2018478.867876 2018478.867876 0 0 1-66.093081 66.091041l-13.580156 13.582196c-12.578374 12.576334-12.578374 33.589257 0 46.165591 12.576334 12.576334 33.589257 12.576334 46.165591 0l30.77162-30.76958 82.037931-82.03793 117.900068-117.900068 138.353952-138.353953 143.397545-143.397544 133.036962-133.036963 107.268129-107.268129 66.093081-66.091041 13.580156-13.582196c12.576334-12.576334 12.576334-33.589257 0-46.16559-12.578374-12.580414-33.589257-12.580414-46.165591-0.002041z" fill="" p-id="5516"></path></svg>
+                    </div>
+                </div>
+            </div>
+            <div id="search-engine-list" class="search-engine-list">
+                <!-- 使用中的搜索引擎 -->
+                <div class="search-engine-category" data-category="active">
+                    <div class="search-engine-category-header">
+                        <svg class="search-engine-collapse-icon" viewBox="0 0 24 24" width="16" height="16"><path fill="currentColor" d="M7 10l5 5 5-5z"/></svg>
+                        <span class="search-engine-category-title">使用中</span>
+                    </div>
+                    <div class="search-engine-category-content">
+                        <div id="search-engine-active-list" class="search-engine-items"></div>
+                    </div>
+                </div>
+                <!-- 未使用的预设搜索引擎 -->
+                <div class="search-engine-category" data-category="preset">
+                    <div class="search-engine-category-header">
+                        <svg class="search-engine-collapse-icon" viewBox="0 0 24 24" width="16" height="16"><path fill="currentColor" d="M7 10l5 5 5-5z"/></svg>
+                        <span class="search-engine-category-title">未使用的预设搜索引擎</span>
+                    </div>
+                    <div class="search-engine-category-content">
+                        <div id="search-engine-preset-list" class="search-engine-items"></div>
+                    </div>
+                </div>
+                <!-- 未使用的自定义 -->
+                <div class="search-engine-category" data-category="custom">
+                    <div class="search-engine-category-header">
+                        <svg class="search-engine-collapse-icon" viewBox="0 0 24 24" width="16" height="16"><path fill="currentColor" d="M7 10l5 5 5-5z"/></svg>
+                        <span class="search-engine-category-title">未使用的自定义搜索引擎</span>
+                    </div>
+                    <div class="search-engine-category-content">
+                        <div id="search-engine-custom-list" class="search-engine-items"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="search-engine-buttons">
+                <div class="search-engine-error-row">
+                    <div id="search-engine-count-error" class="add-shortcut-error"></div>
+                </div>
+                <div class="search-engine-btn-row">
+                    <button id="search-engine-cancel" class="search-engine-btn search-engine-cancel">取消</button>
+                    <button id="search-engine-apply" class="search-engine-btn search-engine-apply">应用</button>
+                    <button id="search-engine-ok" class="search-engine-btn search-engine-ok">确定</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 添加搜索引擎面板 -->
+    <div id="add-search-engine-panel" class="settings-modal">
+        <div class="settings-modal-overlay"></div>
+        <div class="settings-modal-content modal-narrow">
+            <div class="settings-header">
+                <span class="settings-title">添加搜索引擎</span>
+                <div id="add-search-engine-close" class="settings-close icon-close">
+                    <!-- 关闭图标由JS生成 -->
+                </div>
+            </div>
+            <div class="settings-body">
+                <div class="add-shortcut-field">
+                    <label class="add-shortcut-label">引擎名称</label>
+                    <input type="text" id="add-search-engine-name" class="add-shortcut-input" placeholder="例如：哔哩哔哩">
+                </div>
+                <div class="add-shortcut-field">
+                    <label class="add-shortcut-label">URL</label>
+                    <input type="url" id="add-search-engine-url" class="add-shortcut-input" placeholder="https://search.bilibili.com/all?keyword=%s">
+                    <span class="url-format-hint">URL中必须包含 %s 作为搜索关键词占位符</span>
+                    <span id="add-search-engine-url-error" class="add-shortcut-error"></span>
+                </div>
+            </div>
+            <div class="add-shortcut-buttons">
+                <button id="add-search-engine-cancel" class="add-shortcut-btn add-shortcut-cancel">取消</button>
+                <button id="add-search-engine-save" class="add-shortcut-btn add-shortcut-save">确定</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 添加快捷方式面板 -->
+    <div id="add-shortcut-panel" class="settings-modal">
+        <div class="settings-modal-overlay"></div>
+        <div class="settings-modal-content">
+            <div class="settings-header">
+                <span class="settings-title">添加快捷方式</span>
+                <div id="add-shortcut-close" class="settings-close icon-close">
+                    <!-- 关闭图标由JS生成 -->
+                </div>
+            </div>
+            <div class="settings-body">
+                <!-- URL输入 -->
+                <div class="add-shortcut-field">
+                    <label class="add-shortcut-label">URL</label>
+                    <input type="url" id="add-shortcut-url" class="add-shortcut-input" placeholder="https://example.com">
+                </div>
+                <!-- 名称输入 -->
+                <div class="add-shortcut-field">
+                    <label class="add-shortcut-label">名称</label>
+                    <input type="text" id="add-shortcut-name" class="add-shortcut-input" placeholder="留空使用URL标题">
+                </div>
+                <!-- 图标输入 -->
+                <div class="add-shortcut-field">
+                    <label class="add-shortcut-label">图标</label>
+                    <input type="url" id="add-shortcut-icon" class="add-shortcut-input" placeholder="留空使用默认图标">
+                </div>
+                <!-- 图标预览 -->
+                <div class="add-shortcut-preview">
+                    <span class="add-shortcut-preview-label">图标预览</span>
+                    <div id="add-shortcut-preview-icon" class="add-shortcut-preview-box">
+                        <svg t="1768974157218" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="8714" width="32" height="32"><path d="M512.704787 1022.681895c-6.566636 0-12.885487-0.746767-19.370211-0.997965l223.522968-358.091907c32.011327-42.692008 51.675057-95.154106 51.675057-152.604663 0-88.961536-45.561669-167.195974-114.530461-213.091436l322.88327 0c29.969663 65.017888 47.096842 137.184673 47.096842 213.424546C1023.98157 793.752715 795.095394 1022.681895 512.704787 1022.681895zM512.205805 256.491303c-134.523205 0-243.604451 102.347371-254.246906 233.876682L96.997133 214.338551C189.740287 84.72121 341.184526 0 512.704787 0c189.230383 0 354.100731 103.095504 442.520963 255.992321C955.22575 255.992321 302.108946 256.491303 512.205805 256.491303zM511.416716 298.145073c118.142111 0 213.88189 95.36503 213.88189 213.051163 0 117.68545-95.739779 213.093484-213.88189 213.093484-118.103885 0-213.882572-95.408034-213.882572-213.093484C297.534144 393.510103 393.312831 298.145073 511.416716 298.145073zM269.683279 590.222492c33.504179 102.303002 128.784566 176.716231 242.522526 176.716231 38.828478 0 75.283547-9.269059 108.292157-24.733419L448.229568 1018.192418c-251.87691-31.759447-446.887571-246.346465-446.887571-506.872631 0-94.739084 26.233779-183.159316 71.129911-259.235365L269.683279 590.222492z" fill="#515151" p-id="8715"></path></svg>
+                    </div>
+                </div>
+                <!-- 按钮 -->
+                <div class="add-shortcut-buttons">
+                    <button id="add-shortcut-cancel" class="add-shortcut-btn add-shortcut-cancel">取消</button>
+                    <button id="add-shortcut-save" class="add-shortcut-btn add-shortcut-save">保存</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 编辑快捷访问面板 -->
+    <div id="edit-shortcut-panel" class="settings-modal">
+        <div class="settings-modal-overlay"></div>
+        <div class="settings-modal-content">
+            <div class="settings-header">
+                <span class="settings-title">编辑快捷访问</span>
+                <div class="edit-shortcut-header-btns">
+                    <button id="edit-shortcut-reset" class="settings-reset-btn" title="恢复为默认设置">重置</button>
+                    <div id="edit-shortcut-close" class="settings-close">
+                        <svg t="1768962858078" class="icon" viewBox="0 0 1070 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="5514" width="20" height="20"><path d="M50.368584 96.533526l30.769579 30.77162 82.037931 82.03793 117.900068 117.900068 138.353952 138.353953 143.399585 143.397544 133.036963 133.036963 107.268128 107.268129 66.091042 66.093081 13.582195 13.580155c12.576334 12.576334 33.589257 12.576334 46.165591 0s12.576334-33.589257 0-46.165591l-30.76958-30.769579-82.03793-82.039971-117.900068-117.898028-138.353953-138.353952-143.397544-143.399585-133.036963-133.036963-107.268128-107.268128L110.11433 63.950131l-13.582196-13.580156c-12.576334-12.578374-33.589257-12.578374-46.165591 0-12.576334 12.576334-12.576334 33.587217 0.002041 46.163551z" fill="" p-id="5515"></path><path d="M882.805987 50.369975l-30.76958 30.76958-82.03997 82.03793-117.898028 117.900068-138.353953 138.353953-143.399584 143.399584-133.036963 133.036963-107.268129 107.268129a2018478.867876 2018478.867876 0 0 1-66.093081 66.091041l-13.580156 13.582196c-12.578374 12.576334-12.578374 33.589257 0 46.165591 12.576334 12.576334 33.589257 12.576334 46.165591 0l30.77162-30.76958 82.037931-82.03793 117.900068-117.900068 138.353952-138.353953 143.397545-143.397544 133.036962-133.036963 107.268129-107.268129 66.093081-66.091041 13.580156-13.582196c12.576334-12.576334 12.576334-33.589257 0-46.16559-12.578374-12.580414-33.589257-12.580414-46.165591-0.002041z" fill="" p-id="5516"></path></svg>
+                    </div>
+                </div>
+            </div>
+            <div id="edit-shortcut-list" class="edit-shortcut-list">
+                <!-- 显示中的快捷访问 -->
+                <div class="edit-shortcut-category" data-category="visible">
+                    <div class="edit-shortcut-category-header">
+                        <svg class="edit-shortcut-collapse-icon" viewBox="0 0 24 24" width="16" height="16"><path fill="currentColor" d="M7 10l5 5 5-5z"/></svg>
+                        <span class="edit-shortcut-category-title">显示中</span>
+                    </div>
+                    <div class="edit-shortcut-category-content">
+                        <div id="edit-shortcut-visible-list" class="edit-shortcut-items"></div>
+                    </div>
+                </div>
+                <!-- 隐藏的快捷访问 -->
+                <div class="edit-shortcut-category" data-category="hidden">
+                    <div class="edit-shortcut-category-header">
+                        <svg class="edit-shortcut-collapse-icon" viewBox="0 0 24 24" width="16" height="16"><path fill="currentColor" d="M7 10l5 5 5-5z"/></svg>
+                        <span class="edit-shortcut-category-title">已隐藏</span>
+                    </div>
+                    <div class="edit-shortcut-category-content">
+                        <div id="edit-shortcut-hidden-list" class="edit-shortcut-items"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="edit-shortcut-buttons">
+                <button id="edit-shortcut-cancel" class="edit-shortcut-btn edit-shortcut-cancel">取消</button>
+                <button id="edit-shortcut-apply" class="edit-shortcut-btn edit-shortcut-apply">应用</button>
+                <button id="edit-shortcut-ok" class="edit-shortcut-btn edit-shortcut-ok">确定</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 编辑搜索引擎面板 -->
+    <div id="edit-search-engine-panel" class="settings-modal">
+        <div class="settings-modal-overlay"></div>
+        <div class="settings-modal-content modal-narrow">
+            <div class="settings-header">
+                <span class="settings-title">编辑搜索引擎</span>
+                <div id="edit-search-engine-close" class="settings-close icon-close">
+                    <!-- 关闭图标由JS生成 -->
+                </div>
+            </div>
+            <div class="settings-body">
+                <div class="add-shortcut-field">
+                    <label class="add-shortcut-label">引擎名称</label>
+                    <input type="text" id="edit-search-engine-name" class="add-shortcut-input" placeholder="例如：哔哩哔哩">
+                </div>
+                <div class="add-shortcut-field">
+                    <label class="add-shortcut-label">URL</label>
+                    <input type="url" id="edit-search-engine-url" class="add-shortcut-input" placeholder="https://search.bilibili.com/all?keyword=%s">
+                    <span class="url-format-hint">URL中必须包含 %s 作为搜索关键词占位符</span>
+                    <span id="edit-search-engine-url-error" class="add-shortcut-error"></span>
+                </div>
+            </div>
+            <div class="add-shortcut-buttons">
+                <button id="edit-search-engine-cancel" class="add-shortcut-btn add-shortcut-cancel">取消</button>
+                <button id="edit-search-engine-apply" class="add-shortcut-btn add-shortcut-apply">应用</button>
+                <button id="edit-search-engine-save" class="add-shortcut-btn add-shortcut-save">确定</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 编辑快捷方式面板 -->
+    <div id="edit-shortcut-item-panel" class="settings-modal">
+        <div class="settings-modal-overlay"></div>
+        <div class="settings-modal-content">
+            <div class="settings-header">
+                <span class="settings-title">编辑快捷方式</span>
+                <div id="edit-shortcut-item-close" class="settings-close icon-close">
+                    <!-- 关闭图标由JS生成 -->
+                </div>
+            </div>
+            <div class="settings-body">
+                <!-- URL输入 -->
+                <div class="add-shortcut-field">
+                    <label class="add-shortcut-label">URL</label>
+                    <input type="url" id="edit-shortcut-item-url" class="add-shortcut-input" placeholder="https://example.com">
+                </div>
+                <!-- 名称输入 -->
+                <div class="add-shortcut-field">
+                    <label class="add-shortcut-label">名称</label>
+                    <input type="text" id="edit-shortcut-item-name" class="add-shortcut-input" placeholder="留空使用URL标题">
+                </div>
+                <!-- 图标输入 -->
+                <div class="add-shortcut-field">
+                    <label class="add-shortcut-label">图标</label>
+                    <input type="url" id="edit-shortcut-item-icon" class="add-shortcut-input" placeholder="留空使用默认图标">
+                </div>
+                <!-- 图标预览 -->
+                <div class="add-shortcut-preview">
+                    <span class="add-shortcut-preview-label">图标预览</span>
+                    <div id="edit-shortcut-item-preview-icon" class="add-shortcut-preview-box">
+                        <svg t="1768974157218" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="8714" width="32" height="32"><path d="M512.704787 1022.681895c-6.566636 0-12.885487-0.746767-19.370211-0.997965l223.522968-358.091907c32.011327-42.692008 51.675057-95.154106 51.675057-152.604663 0-88.961536-45.561669-167.195974-114.530461-213.091436l322.88327 0c29.969663 65.017888 47.096842 137.184673 47.096842 213.424546C1023.98157 793.752715 795.095394 1022.681895 512.704787 1022.681895zM512.205805 256.491303c-134.523205 0-243.604451 102.347371-254.246906 233.876682L96.997133 214.338551C189.740287 84.72121 341.184526 0 512.704787 0c189.230383 0 354.100731 103.095504 442.520963 255.992321C955.22575 255.992321 302.108946 256.491303 512.205805 256.491303zM511.416716 298.145073c118.142111 0 213.88189 95.36503 213.88189 213.051163 0 117.68545-95.739779 213.093484-213.88189 213.093484-118.103885 0-213.882572-95.408034-213.882572-213.093484C297.534144 393.510103 393.312831 298.145073 511.416716 298.145073zM269.683279 590.222492c33.504179 102.303002 128.784566 176.716231 242.522526 176.716231 38.828478 0 75.283547-9.269059 108.292157-24.733419L448.229568 1018.192418c-251.87691-31.759447-446.887571-246.346465-446.887571-506.872631 0-94.739084 26.233779-183.159316 71.129911-259.235365L269.683279 590.222492z" fill="#515151" p-id="8715"></path></svg>
+                    </div>
+                </div>
+                <!-- 按钮 -->
+                <div class="add-shortcut-buttons">
+                    <button id="edit-shortcut-item-cancel" class="add-shortcut-btn add-shortcut-cancel">取消</button>
+                    <button id="edit-shortcut-item-apply" class="add-shortcut-btn add-shortcut-apply">应用</button>
+                    <button id="edit-shortcut-item-save" class="add-shortcut-btn add-shortcut-save">确定</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 历史记录设置面板 -->
+    <div id="history-settings-panel" class="settings-modal">
+        <div class="settings-modal-overlay"></div>
+        <div class="settings-modal-content">
+            <div class="settings-header">
+                <span class="settings-title">历史记录设置</span>
+                <div id="history-settings-close" class="settings-close icon-close">
+                    <!-- 关闭图标由JS生成 -->
+                </div>
+            </div>
+            <div class="settings-body">
+                <div class="setting-item" data-setting="show-history-menu">
+                    <span class="setting-item-text">显示历史记录菜单</span>
+                    <span class="status-indicator enabled">
+                        <svg class="status-icon" viewBox="0 0 2048 1024"></svg>
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 关于面板 -->
+    <div id="about-panel" class="settings-modal">
+        <div class="settings-modal-overlay"></div>
+        <div class="settings-modal-content">
+            <div class="settings-header">
+                <span class="settings-title">关于</span>
+                <div id="about-close" class="settings-close icon-close">
+                    <!-- 关闭图标由JS生成 -->
+                </div>
+            </div>
+            <div class="about-body">
+                <div class="about-title">
+                    <p>HarmonyMagic StartPage</p>
+                    <p>Whiterrabbit Edition</p>
+                </div>
+                <div class="about-copyright">
+                    <p>Copyright &copy; 2026 <a href="mailto:anjisuan608@petalmail.com">anjisuan608</a></p>
+                    <p>Copyright &copy; 2026 <a href="mailto:379126402@qq.com">Whiterrabbit</a></p>
+                </div>
+                <div class="about-license">
+                    <p>本项目基于 <a href="https://www.gnu.org/licenses/gpl-3.0.html" target="_blank" rel="noopener noreferrer">GPLv3</a> 开源</p>
+                </div>
+                <div class="about-icons">
+                    <p>图标素材来自 <a href="https://www.iconfont.cn" target="_blank" rel="noopener noreferrer">阿里巴巴矢量图标库</a></p>
+                </div>
+                <div class="about-links">
+                    <p>项目仓库：</p>
+                    <div class="about-link-buttons">
+                        <a href="https://github.com/whiterrabbit3672/whiterrabbit3672.github.io" target="_blank" rel="noopener noreferrer" class="about-link-btn primary">
+                            GitHub <span class="main-badge">项目仓库</span>
+                        </a>
+                    </div>
+                    <p>开源仓库：</p>
+                    <div class="about-link-buttons">
+                        <a href="https://gitcode.com/anjisuan608/HarmonyMagic-StartPage" target="_blank" rel="noopener noreferrer" class="about-link-btn primary">
+                            GitCode <span class="main-badge">主仓库</span>
+                        </a>
+                        <a href="https://gitee.com/anjisuan608/HarmonyMagic-StartPage" target="_blank" rel="noopener noreferrer" class="about-link-btn">
+                            Gitee <span class="mirror-badge">镜像</span>
+                        </a>
+                        <a href="https://gitlink.org.cn/anjisuan608/HarmonyMagic-StartPage" target="_blank" rel="noopener noreferrer" class="about-link-btn">
+                            GitLink <span class="mirror-badge">镜像</span>
+                        </a>
+                        <a href="https://github.com/anjisuan608/HarmonyMagic-StartPage" target="_blank" rel="noopener noreferrer" class="about-link-btn">
+                            GitHub <span class="mirror-badge">镜像</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="notices" class="notices"></div>
+
+    <div class="time-date" id="time-date">
+        <div class="time-display">
+            <div id="time">00:00:00</div>
+        </div>
+        <div class="date-display">
+            <div id="date">2026年01月01日 星期一 第1周</div>
+        </div>
+    </div>
+    <div class="search-box" id="search-box">
+        <div class="search-boxes-container" id="search-boxes-container">
+            <!-- 左侧圆形搜索框 -->
+            <div class="search-box-circle left-circle-1" data-engine-id="1">
+                <div class="search-circle-content"></div>
+                <span class="search-engine-name"></span>
+                <input type="text" class="circle-search-input" placeholder="" aria-label="搜索框1">
+                <button class="circle-search-btn" aria-label="搜索1"></button>
+                <div class="search-history-dropdown">
+                    <div class="search-history-list"></div>
+                    <div class="search-history-control"></div>
+                </div>
+            </div>
+            <div class="search-box-circle left-circle-2" data-engine-id="2">
+                <div class="search-circle-content"></div>
+                <span class="search-engine-name"></span>
+                <input type="text" class="circle-search-input" placeholder="" aria-label="搜索框2">
+                <button class="circle-search-btn" aria-label="搜索2"></button>
+                <div class="search-history-dropdown">
+                    <div class="search-history-list"></div>
+                    <div class="search-history-control"></div>
+                </div>
+            </div>
+            <div class="search-box-circle left-circle-3" data-engine-id="3">
+                <div class="search-circle-content"></div>
+                <span class="search-engine-name"></span>
+                <input type="text" class="circle-search-input" placeholder="" aria-label="搜索框3">
+                <button class="circle-search-btn" aria-label="搜索3"></button>
+                <div class="search-history-dropdown">
+                    <div class="search-history-list"></div>
+                    <div class="search-history-control"></div>
+                </div>
+            </div>
+            
+            <!-- 中间搜索框 -->
+            <div class="search-box-circle center-0 expanded" data-engine-id="4">
+                <div class="search-circle-content"></div>
+                <span class="search-engine-name"></span>
+                <input type="text" class="circle-search-input" placeholder="" aria-label="主搜索框">
+                <button class="circle-search-btn" aria-label="搜索"></button>
+                <div class="search-history-dropdown">
+                    <div class="search-history-list"></div>
+                    <div class="search-history-control"></div>
+                </div>
+            </div>
+            <!-- 右侧圆形搜索框 -->
+            <div class="search-box-circle right-circle-1" data-engine-id="5">
+                <div class="search-circle-content"></div>
+                <span class="search-engine-name"></span>
+                <input type="text" class="circle-search-input" placeholder="" aria-label="搜索框5">
+                <button class="circle-search-btn" aria-label="搜索5"></button>
+                <div class="search-history-dropdown">
+                    <div class="search-history-list"></div>
+                    <div class="search-history-control"></div>
+                </div>
+            </div>
+            <div class="search-box-circle right-circle-2" data-engine-id="6">
+                <div class="search-circle-content"></div>
+                <span class="search-engine-name"></span>
+                <input type="text" class="circle-search-input" placeholder="" aria-label="搜索框6">
+                <button class="circle-search-btn" aria-label="搜索6"></button>
+                <div class="search-history-dropdown">
+                    <div class="search-history-list"></div>
+                    <div class="search-history-control"></div>
+                </div>
+            </div>
+            <div class="search-box-circle right-circle-3" data-engine-id="7">
+                <div class="search-circle-content"></div>
+                <span class="search-engine-name"></span>
+                <input type="text" class="circle-search-input" placeholder="" aria-label="搜索框7">
+                <button class="circle-search-btn" aria-label="搜索7"></button>
+                <div class="search-history-dropdown">
+                    <div class="search-history-list"></div>
+                    <div class="search-history-control"></div>
+                </div>
+            </div>
+        </div>
+        <div class="search-history-mobile-dropdown">
+                    <div class="search-history-list"></div>
+                    <div class="search-history-control"></div>
+        </div>
+    </div>
+    
+    <div id="context-menu" class="context-menu">
+        <div class="menu-items">
+            <!-- 快捷访问菜单项由 JavaScript 从 quick-access.json 动态加载 -->
+        </div>
+    </div>
+    <div class="footer-copyright">
+        <div class="footer-text">
+            <p class="copyright-text" id="copyright-text">Copyright &copy; 2026 anjisuan608 | Licensed under GPLv3</p>
+        </div>
+    </div>
+
+    <!-- 确认对话框 -->
+    <div id="confirm-dialog" class="confirm-dialog">
+        <div class="confirm-dialog-overlay"></div>
+        <div class="confirm-dialog-content">
+            <div class="confirm-dialog-header">
+                <span id="confirm-dialog-title" class="confirm-dialog-title">确认操作</span>
+                <div id="confirm-dialog-close" class="confirm-dialog-close icon-close">
+                    <!-- 关闭图标由JS生成 -->
+                </div>
+            </div>
+            <div id="confirm-dialog-message" class="confirm-dialog-message">确定要执行此操作吗？</div>
+            <div class="confirm-dialog-actions">
+                <button id="confirm-dialog-cancel" class="confirm-dialog-btn confirm-dialog-cancel">否</button>
+                <button id="confirm-dialog-ok" class="confirm-dialog-btn confirm-dialog-ok">是</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

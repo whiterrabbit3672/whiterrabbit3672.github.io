@@ -1,0 +1,3942 @@
+/*!
+ * HarmonyMagic StartPage
+ * Copyright (C) 2026 anjisuan608 <anjisuan608@petalmail.com> and contributors
+ * Copyright (C) 2026 Whiterrabbit <379126402@qq.com> and contributors
+ * 
+ * SPDX-License-Identifier: GPL-3.0-or-later
+ * 
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * 
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License at <https://www.gnu.org/licenses/> for details.
+ */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    -webkit-user-select: none; /* 禁止拖拽选择 */
+    user-select: none;
+}
+
+html, body {
+    touch-action: none; /* 禁止触摸操作 */
+    overscroll-behavior: none; /* 禁止橡皮筋滚动 */
+}
+
+/* ==================== 深色模式变量 ==================== */
+:root {
+    /* 浅色模式变量（默认） */
+    --bg-color: #f5f5f5;
+    --text-color: #333333;
+    --text-secondary: #666666;
+    --text-muted: #999999;
+    --border-color: #e0e0e0;
+    --card-bg: rgba(255, 255, 255, 0.85);
+    --card-bg-hover: rgba(255, 255, 255, 0.95);
+    --input-bg: rgba(255, 255, 255, 0.9);
+    --input-focus-bg: rgba(255, 255, 255, 1);
+    --shadow-color: rgba(0, 0, 0, 0.15);
+    --overlay-bg: rgba(0, 0, 0, 0.3);
+    --modal-bg: #ffffff;
+    --modal-text: #333333;
+    --button-bg: #f0f0f0;
+    --button-hover: #e0e0e0;
+    --icon-color: #7a7a7a;
+    --icon-hover: #555555;
+    --divider-color: #e5e5e5;
+    --danger-color: #d32f2f;
+    --success-color: #388e3c;
+}
+
+/* 深色模式 */
+[data-theme="dark"] {
+    --bg-color: #1a1a1a;
+    --text-color: #e0e0e0;
+    --text-secondary: #b0b0b0;
+    --text-muted: #808080;
+    --border-color: #404040;
+    --card-bg: rgba(40, 40, 40, 0.85);
+    --card-bg-hover: rgba(60, 60, 60, 0.95);
+    --input-bg: rgba(50, 50, 50, 0.9);
+    --input-focus-bg: rgba(60, 60, 60, 1);
+    --shadow-color: rgba(0, 0, 0, 0.4);
+    --overlay-bg: rgba(0, 0, 0, 0.5);
+    --modal-bg: #2d2d2d;
+    --modal-text: #e0e0e0;
+    --button-bg: #3a3a3a;
+    --button-hover: #4a4a4a;
+    --icon-color: #a0a0a0;
+    --icon-hover: #c0c0c0;
+    --divider-color: #404040;
+}
+
+body {
+    font-family: inherit;
+    background: #333;
+    background-image: var(--wallpaper-url, none);
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    color: #333;
+    transition: background-image 0.5s ease;
+    overflow: hidden;
+    padding-top: 100px; /* 增加顶部padding让内容下移 */
+}
+
+/* 背景模糊层 - 输入框聚焦时显示 */
+.bg-blur-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    -webkit-backdrop-filter: blur(8px);
+    backdrop-filter: blur(8px);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    z-index: 0;
+}
+
+.bg-blur-overlay.active {
+    opacity: 1;
+}
+
+/* 暗角滤镜效果 - 顶部和底部暗边 */
+body::after {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    background: 
+        linear-gradient(to bottom, rgba(0, 0, 0, 0.4) 0%, rgba(0, 0, 0, 0.15) 40%, rgba(0, 0, 0, 0) 100%),
+        linear-gradient(to top, rgba(0, 0, 0, 0.4) 0%, rgba(0, 0, 0, 0.15) 40%, rgba(0, 0, 0, 0) 100%),
+        radial-gradient(circle at top left, transparent 40%, rgba(0, 0, 0, 0.15) 100%),
+        radial-gradient(circle at top right, transparent 40%, rgba(0, 0, 0, 0.15) 100%),
+        radial-gradient(circle at bottom left, transparent 40%, rgba(0, 0, 0, 0.15) 100%),
+        radial-gradient(circle at bottom right, transparent 40%, rgba(0, 0, 0, 0.15) 100%);
+    z-index: 0;
+    filter: var(--wallpaper-filter, none);
+}
+
+/* 禁用背景滤镜时完全隐藏暗角效果 */
+body[data-filter-disabled="true"]::after {
+    display: none !important;
+}
+
+.time-date {
+    width: 90%;
+    max-width: 600px;
+    text-align: center;
+    z-index: 3001;
+    position: relative;
+    margin-bottom: 0 auto; /* 时间与搜索框之间的间距 */
+}
+
+.search-box {
+    width: 90%;
+    max-width: 1000px;
+    text-align: center;
+    z-index: 101;
+    position: relative;
+}
+
+.time-display,
+.date-display {
+    margin-bottom: 0.5rem;
+    position: relative;
+    z-index: 3000 !important;
+    cursor: pointer;
+    transition: none;
+}
+
+#time {
+    font-size: 76px;
+    font-weight: bold;
+    color: white;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+    margin-bottom: 0.3rem;
+}
+
+#date {
+    font-size: 26px; /* 减小字体大小 (1.5rem - 0.3rem ≈ 3px减少) */
+    color: white;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+}
+
+.search-boxes-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    max-width: 1000px; /* 增加最大宽度以确保有足够的空间 */
+    margin: 40px auto 0; /* 向下移动搜索框，与时间拉开距离 */
+    position: relative;
+    overflow: visible; /* 确保展开效果可见 */
+}
+
+.search-box-circle {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.45);
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+    border: 2px solid rgba(255, 255, 255, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 5px; /* 减少圆形搜索框的边距以适应更多元素 */
+    cursor: pointer;
+    transition: all 0.3s ease;
+    flex-shrink: 0; /* 防止被挤压变形 */
+    position: relative;
+    z-index: 1;
+}
+
+/* 深色模式适配 */
+[data-theme="dark"] .search-box-circle {
+    background: rgba(60, 60, 60, 0.5);
+    border: 2px solid rgba(255, 255, 255, 0.2);
+}
+
+/* 圆形搜索框展开状态 - 未输入状态 */
+.search-box-circle.expanded {
+    width: 150px; /* 与中间搜索框的默认宽度相同 */
+    border-radius: 30px;
+    z-index: 2;
+}
+
+/* 圆形搜索框展开状态 - 输入状态 */
+.search-box-circle.expanded.input-active {
+    width: 300px; /* 与中间搜索框的展开宽度相同 */
+    background: rgba(255, 255, 255, 0.7);
+}
+
+/* 深色模式适配 - 展开状态 */
+[data-theme="dark"] .search-box-circle.expanded {
+    background: rgba(80, 80, 80, 0.7);
+}
+
+[data-theme="dark"] .search-box-circle.expanded.input-active {
+    background: rgba(100, 100, 100, 0.8);
+}
+
+/* 移动端圆形搜索框直接展开到输入状态 */
+@media (max-width: 768px) {
+    :root {
+        --mobile-search-width: calc(100vw - 40px);
+        /* 自定义贝塞尔曲线：更平滑的展开/收缩动画 */
+        --mobile-transition: width 0.4s cubic-bezier(0.34, 1.56, 0.64, 1),
+                             border-radius 0.4s cubic-bezier(0.34, 1.56, 0.64, 1),
+                             background 0.3s ease,
+                             opacity 0.3s ease,
+                             transform 0.3s ease;
+    }
+
+    .search-box-circle.expanded,
+    .search-box-circle.expanded.input-active {
+        width: var(--mobile-search-width);
+        max-width: 350px;
+    }
+
+    .search-container-shortened.expanded,
+    .search-container-shortened.expanded.input-active {
+        width: var(--mobile-search-width);
+        max-width: 350px;
+    }
+}
+
+
+
+.search-box-circle:hover {
+    background: rgba(255, 255, 255, 0.7);
+    border-color: #4CAF50;
+}
+
+[data-theme="dark"] .search-box-circle:hover {
+    background: rgba(100, 100, 100, 0.7);
+    border-color: #4CAF50;
+}
+
+.search-circle-content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* 引擎名称滑入动画 - 贴在图标右侧 */
+.search-engine-name {
+    position: absolute;
+    left: 36px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 14px;
+    font-weight: 500;
+    color: rgba(51, 51, 51, 0.6);
+    white-space: nowrap;
+    opacity: 0;
+    pointer-events: none;
+    text-shadow: 0 1px 2px rgba(255, 255, 255, 0.8);
+    z-index: 2;
+}
+
+/* 深色模式适配 */
+[data-theme="dark"] .search-engine-name {
+    color: rgba(255, 255, 255, 0.8);
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8);
+}
+
+/* 只有进入输入焦点时才显示引擎名称动画 */
+.search-box-circle.input-active .search-engine-name {
+    animation: engineNameSlideIn 3.5s ease-out forwards;
+}
+
+@keyframes engineNameSlideIn {
+    0% {
+        opacity: 0;
+        transform: translateY(-80%);
+    }
+    15% {
+        opacity: 1;
+        transform: translateY(-50%);
+    }
+    70% {
+        opacity: 1;
+        transform: translateY(-50%);
+    }
+    100% {
+        opacity: 0;
+        transform: translateY(20%);
+    }
+}
+
+.search-box-circle .search-icon {
+    width: 20px;
+    height: 20px;
+    transition: opacity 0.3s ease;
+}
+
+/* 展开的圆形搜索框内的输入框样式 */
+.search-box-circle .circle-search-input {
+    position: absolute;
+    left: 21px; /* 图标位置(12px) + 9px间距 */
+    top: 50%;
+    transform: translateY(-50%);
+    width: calc(100% - 57px); /* 总宽度减去左边距(21px)和右边距(36px) */
+    height: 36px;
+    padding: 0 3px 0 15px; /* 减少左侧内边距，右侧保持3px */
+    border: none;
+    background: transparent;
+    font-size: 1rem;
+    outline: none;
+    color: #333;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease,
+                visibility 0.3s ease,
+                width 0.3s ease;
+    -webkit-user-select: text;
+    user-select: text;
+    text-align: center; /* 文字居中对齐 */
+}
+
+/* 深色模式适配 */
+[data-theme="dark"] .search-box-circle .circle-search-input {
+    color: #e0e0e0;
+}
+
+/* 展开状态显示输入框 */
+.search-box-circle.expanded .circle-search-input {
+    opacity: 1;
+    visibility: visible;
+}
+
+/* 展开的圆形搜索框内的搜索按钮样式 */
+.search-box-circle .circle-search-btn {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: transparent;
+    color: #4CAF50;
+    border: none;
+    font-size: 1rem;
+    cursor: pointer;
+    padding: 5px;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease,
+                visibility 0.3s ease,
+                background 0.2s ease,
+                color 0.2s ease,
+                transform 0.3s ease;
+}
+
+/* 展开状态始终显示搜索按钮 */
+.search-box-circle.expanded .circle-search-btn {
+    opacity: 1;
+    visibility: visible;
+}
+
+.search-box-circle .circle-search-btn:hover {
+    background: rgba(76, 175, 80, 0.2);
+    color: #45a049;
+}
+
+/* 深色模式适配 - 搜索按钮保持绿色高亮 */
+[data-theme="dark"] .search-box-circle .circle-search-btn {
+    color: #66BB6A;
+}
+
+/* 展开状态下图标位置调整 */
+.search-box-circle.expanded .search-circle-content {
+    position: absolute;
+    left: 12px; /* 图标定位到左侧 */
+    top: 50%;
+    transform: translateY(-50%);
+    opacity: 1; /* 保持图标可见 */
+    visibility: visible;
+    z-index: 1; /* 确保图标在输入框上方 */
+    transition: opacity 0.3s ease,
+                visibility 0.3s ease,
+                transform 0.3s ease;
+}
+
+/* 确保展开时图标样式与中间搜索框一致 */
+.search-box-circle.expanded .search-icon {
+    position: static;
+    transform: none;
+    margin: 0;
+    transition: opacity 0.3s ease,
+                transform 0.3s ease,
+                margin 0.3s ease;
+}
+
+/* 深色模式适配 - 圆形搜索框展开时的图标 */
+[data-theme="dark"] .search-box-circle.expanded .search-icon {
+    filter: brightness(1.8);
+}
+
+.search-box-center {
+    margin: 0 10px;
+    flex: 0 0 auto; /* 防止居中搜索框被挤压 */
+    position: relative; /* 添加相对定位 */
+    z-index: 1; /* 确保中间搜索框在展开时位于其他元素之上 */
+    align-self: center; /* 确保垂直居中 */
+}
+
+.search-container-shortened {
+    position: relative;
+    width: 50px; /* 圆形状态宽度 */
+    height: 50px; /* 圆形状态高度 */
+    max-width: 300px; /* 缩短的搜索框 */
+    margin: 0 auto;
+    transition: width 0.4s cubic-bezier(0.34, 1.56, 0.64, 1),
+                border-radius 0.4s cubic-bezier(0.34, 1.56, 0.64, 1),
+                background 0.3s ease,
+                border-color 0.3s ease,
+                box-shadow 0.3s ease;
+    overflow: visible; /* 确保展开时内容可见 */
+    border-radius: 50%; /* 圆形状态 */
+    background: rgba(255, 255, 255, 0.5);
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+    border: 2px solid rgba(255, 255, 255, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* 深色模式适配 */
+[data-theme="dark"] .search-container-shortened {
+    background: rgba(60, 60, 60, 0.5);
+    border: 2px solid rgba(255, 255, 255, 0.2);
+}
+
+/* 中间搜索框未输入展开状态 */
+.search-container-shortened.expanded {
+    width: 150px; /* 未输入展开宽度 */
+    border-radius: 30px;
+    z-index: 2; /* 确保展开后的搜索框在其他元素之上 */
+}
+
+/* 中间搜索框输入展开状态 */
+.search-container-shortened.expanded.input-active {
+    width: 300px; /* 输入展开宽度 */
+}
+
+/* 深色模式适配 - 展开状态 */
+[data-theme="dark"] .search-container-shortened.expanded {
+    background: rgba(80, 80, 80, 0.7);
+}
+
+[data-theme="dark"] .search-container-shortened.expanded.input-active {
+    background: rgba(100, 100, 100, 0.8);
+}
+
+#search-input {
+    width: 0;
+    height: 36px;
+    padding: 0;
+    border: none;
+    background: transparent;
+    font-size: 1rem;
+    outline: none;
+    transition: all 0.3s ease;
+    color: var(--text-color);
+    -webkit-user-select: text;
+    user-select: text; /* 输入框允许选择文本 */
+    opacity: 0;
+    visibility: hidden;
+}
+
+/* 展开状态显示输入框 */
+.search-container-shortened.expanded #search-input {
+    position: absolute;
+    left: 21px; /* 图标位置(12px) + 9px间距 */
+    width: calc(100% - 57px); /* 总宽度减去左边距(21px)和右边距(36px) */
+    padding: 0 3px 0 15px; /* 减少左侧内边距，右侧保持3px */
+    border-radius: 30px;
+    border: none;
+    background: transparent;
+    opacity: 1;
+    visibility: visible;
+    text-align: center; /* 文字居中对齐 */
+}
+
+#search-input:focus {
+    border-color: #4CAF50;
+    box-shadow: 0 4px 25px rgba(76, 175, 80, 0.3);
+    background: var(--input-focus-bg);
+}
+
+#search-btn {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: transparent;
+    color: #4CAF50; /* 使用莫奈取色 */
+    border: none;
+    font-size: 1.2rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    padding: 5px;
+    border-radius: 50%;
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    visibility: hidden;
+}
+
+/* 输入状态显示搜索按钮 */
+.search-container-shortened.expanded.input-active #search-btn {
+    opacity: 1;
+    visibility: visible;
+}
+
+#search-btn svg {
+    width: 20px;
+    height: 20px;
+    fill: none;
+    stroke: currentColor; /* 使SVG颜色跟随currentColor */
+    stroke-width: 2;
+}
+
+#search-input:focus + #search-btn,
+#search-btn:hover {
+    opacity: 1;
+    visibility: visible;
+}
+
+#search-btn:hover {
+    background: rgba(76, 175, 80, 0.2);
+    color: #45a049;
+}
+
+/* 深色模式适配 - 中间搜索框搜索按钮 */
+[data-theme="dark"] #search-btn {
+    color: #66BB6A;
+}
+
+[data-theme="dark"] #search-btn:hover {
+    background: rgba(102, 187, 106, 0.2);
+    color: #81C784;
+}
+
+.search-icon {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 20px;
+    height: 20px;
+    z-index: 1;
+    border-radius: 3px; /* 让favicon图标更美观 */
+    opacity: 1;
+    visibility: visible;
+    transition: all 0.3s ease;
+}
+
+/* 深色模式适配 - 图标变亮以在深色背景上清晰显示 */
+[data-theme="dark"] .search-icon {
+    filter: brightness(1.8);
+}
+
+/* 展开状态调整图标位置 */
+.search-container-shortened.expanded .search-icon {
+    left: 12px;
+    transform: translateY(-50%);
+}
+
+/* 右键菜单样式 */
+.context-menu {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh; /* 覆盖整个视口 */
+    background: transparent; /* 无背景 */
+    display: flex;
+    z-index: 2000;
+    align-items: flex-start; /* 顶部对齐 */
+    justify-content: center;
+    padding-top: 0;
+    opacity: 0;
+    visibility: hidden;
+}
+
+.context-menu.active {
+    opacity: 1;
+    visibility: visible;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.context-menu.active .time-display,
+.context-menu.active .date-display {
+    z-index: 3001 !important;
+}
+
+.context-menu.active .search-boxes-container {
+    opacity: 0;
+    visibility: hidden; /* 打开快捷访问时隐藏搜索框 */
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.menu-items {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr); /* 5列布局 */
+    gap: 12px;
+    width: 100%;
+    max-width: 660px;
+    /* 距离footer 8px，设置最大高度 */
+    max-height: calc(100vh - var(--search-box-top, 120px) - 40px - 28px - 8px);
+    padding: 20px;
+    margin-top: var(--search-box-top, 120px); /* 向下偏移到搜索框位置 */
+    z-index: 2001;
+    /* 移除背景板 */
+    background: transparent;
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+    border-radius: 0;
+    opacity: 0;
+    transform: scale(0.95);
+    overflow-y: auto; /* 纵向滚动条 */
+    /* 使用@supports条件应用Firefox专用滚动条样式 */
+    @supports (scrollbar-width: thin) {
+        scrollbar-width: thin;
+        scrollbar-color: rgba(255, 255, 255, 0.3) transparent;
+    }
+}
+
+/* Webkit浏览器(Chrome/Safari)滚动条样式 */
+.menu-items::-webkit-scrollbar {
+    width: 6px; /* Webkit滚动条宽度 */
+}
+
+.menu-items::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.menu-items::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.3); /* Webkit滚动条颜色 */
+    border-radius: 3px;
+}
+
+.menu-items::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.menu-items::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 3px;
+}
+
+.menu-items::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.5);
+}
+
+.context-menu.active .menu-items {
+    opacity: 1;
+    transform: scale(1);
+    transition: opacity 0.3s ease 0.1s, transform 0.3s ease 0.1s;
+}
+
+.menu-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    color: white; /* 将字体设置为白色 */
+    position: relative;
+}
+
+/* 点击背景板 - 方形 */
+.menu-item-bg {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 48px;
+    height: 48px;
+    border-radius: 4px;
+    z-index: 1;
+    background: #F5F5F588;
+}
+
+/* 深色模式适配 - 保持浅灰色背景以显示黑色图标 */
+[data-theme="dark"] .menu-item-bg {
+    background: #23232388;
+}
+
+/* 图标容器 */
+.menu-icon-wrapper {
+    position: relative;
+    width: 100%;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 4px;
+}
+
+/* 图标不响应点击 */
+.menu-icon {
+    font-size: 1.5rem;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none; /* 图标不响应点击 */
+    z-index: 2;
+}
+
+.menu-icon svg {
+    width: 100%;
+    height: 100%;
+}
+
+.menu-item img {
+    width: 32px;
+    height: 32px;
+    border-radius: 3px;
+    pointer-events: none;
+    z-index: 2;
+}
+
+.menu-text {
+    text-shadow: none;
+    color: #FFFFFF;
+    font-size: 0.85rem;
+    z-index: 2;
+    position: relative;
+    pointer-events: auto; /* 文字可以点击 */
+    width: 80px;
+    max-width: 80px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    text-align: center;
+}
+
+/* 深色模式适配：添加和编辑按钮 */
+[data-theme="dark"] .menu-item[data-action="add"] .menu-icon svg path,
+[data-theme="dark"] .menu-item[data-action="edit"] .menu-icon svg path {
+    fill: #e0e0e099 !important;
+}
+
+@media (max-width: 768px) {
+    /* 移动端调整body的padding-top，使用更小的值 */
+    body {
+        padding-top: 40px;
+    }
+
+    /* 移动端时间日期容器调整 */
+    .time-date {
+        margin-bottom: 20px;
+    }
+
+    #time {
+        font-size: 2.5rem;
+        font-weight: bold;
+    }
+
+    #date {
+        font-size: 1rem;
+    }
+
+    /* 移动端container的top值由JS动态设置 */
+
+    /* 移动端搜索框容器 - 默认横向排列 */
+    .search-boxes-container {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        max-width: 100%;
+        gap: 5px;
+        margin-top: 0; /* 移动端不应用向下偏移 */
+    }
+
+    /* 默认布局：横向排列 */
+    .search-box-circle {
+        margin: 3px;
+        flex-shrink: 0;
+        /* 移动端专用平滑动画 */
+        transition: width 0.4s cubic-bezier(0.34, 1.56, 0.64, 1),
+                    border-radius 0.4s cubic-bezier(0.34, 1.56, 0.64, 1),
+                    background 0.3s ease,
+                    border-color 0.3s ease,
+                    opacity 0.3s ease,
+                    transform 0.3s ease;
+    }
+
+    .search-container-shortened {
+        width: 50px;
+        min-width: 50px;
+        /* 移动端专用平滑动画 */
+        transition: width 0.4s cubic-bezier(0.34, 1.56, 0.64, 1),
+                    border-radius 0.4s cubic-bezier(0.34, 1.56, 0.64, 1),
+                    background 0.3s ease,
+                    border-color 0.3s ease;
+    }
+
+    /* 移动端搜索框直接展开到输入状态 */
+    .search-container-shortened.expanded {
+        width: var(--mobile-search-width);
+        min-width: auto;
+    }
+
+    .search-container-shortened.expanded.input-active {
+        width: var(--mobile-search-width);
+        min-width: auto;
+    }
+
+    .search-box-circle.expanded {
+        width: var(--mobile-search-width);
+    }
+
+    /* 搜索框展开时的3排布局 - 使用flex-wrap实现真正的三排 */
+    .search-boxes-container.left-expanded,
+    .search-boxes-container.center-expanded,
+    .search-boxes-container.right-expanded {
+        display: flex !important;
+        flex-wrap: wrap !important;
+        align-content: flex-start !important;
+        justify-content: center !important;
+        max-height: 300px !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        gap: 8px !important;
+        padding: 10px 0 !important;
+        /* 布局变化的平滑过渡 */
+        transition: height 0.4s cubic-bezier(0.34, 1.56, 0.64, 1),
+                    gap 0.3s ease,
+                    opacity 0.3s ease,
+                    visibility 0.3s ease;
+    }
+
+    /* 第一排：左边三个球形搜索框（自动排列在第一行） */
+    .search-boxes-container.left-expanded .search-box-circle.left-circle-1,
+    .search-boxes-container.left-expanded .search-box-circle.left-circle-2,
+    .search-boxes-container.left-expanded .search-box-circle.left-circle-3,
+    .search-boxes-container.center-expanded .search-box-circle.left-circle-1,
+    .search-boxes-container.center-expanded .search-box-circle.left-circle-2,
+    .search-boxes-container.center-expanded .search-box-circle.left-circle-3,
+    .search-boxes-container.right-expanded .search-box-circle.left-circle-1,
+    .search-boxes-container.right-expanded .search-box-circle.left-circle-2,
+    .search-boxes-container.right-expanded .search-box-circle.left-circle-3 {
+        width: 50px;
+        height: 50px;
+        flex-shrink: 0;
+        margin: 0;
+    }
+
+    /* 第二排：中间的搜索框（占满一行，展开显示） */
+    .search-boxes-container.left-expanded .center-0,
+    .search-boxes-container.center-expanded .center-0,
+    .search-boxes-container.right-expanded .center-0 {
+        width: 100% !important;
+        max-width: 320px;
+        height: 50px;
+        order: 2;
+        flex-shrink: 0;
+    }
+
+    /* 第三排：右边三个球形搜索框（自动排列在第三行） */
+    .search-boxes-container.left-expanded .search-box-circle.right-circle-1,
+    .search-boxes-container.left-expanded .search-box-circle.right-circle-2,
+    .search-boxes-container.left-expanded .search-box-circle.right-circle-3,
+    .search-boxes-container.center-expanded .search-box-circle.right-circle-1,
+    .search-boxes-container.center-expanded .search-box-circle.right-circle-2,
+    .search-boxes-container.center-expanded .search-box-circle.right-circle-3,
+    .search-boxes-container.right-expanded .search-box-circle.right-circle-1,
+    .search-boxes-container.right-expanded .search-box-circle.right-circle-2,
+    .search-boxes-container.right-expanded .search-box-circle.right-circle-3 {
+        width: 50px;
+        height: 50px;
+        flex-shrink: 0;
+        order: 3;
+        margin: 0;
+    }
+
+    .menu-items {
+        grid-template-columns: repeat(3, 1fr);
+        grid-template-rows: auto;
+        max-width: 95%;
+    }
+
+    .menu-item {
+        min-width: 60px;
+        padding: 10px 5px;
+        font-size: 0.8rem;
+    }
+
+    .menu-icon, .menu-item img {
+        width: 20px;
+        height: 20px;
+        font-size: 1.2rem;
+    }
+
+    /* 壁纸面板移动端适配 */
+    #wallpaper-panel .settings-modal-content {
+        width: 95%;
+        max-width: 95%;
+        max-height: 85vh;
+        padding: 16px;
+    }
+
+    .wallpaper-body {
+        gap: 16px;
+        padding: 12px 0;
+    }
+
+    .wallpaper-custom-row {
+        flex-direction: column;
+        gap: 12px;
+    }
+
+    .wallpaper-preview {
+        width: 100%;
+        max-width: 200px;
+        height: auto;
+        aspect-ratio: 16 / 9;
+        align-self: center;
+        cursor: pointer;
+    }
+
+    .wallpaper-preview-img {
+        border-width: 2px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+    }
+
+    .wallpaper-preview-img.no-bg {
+        background-image: none;
+    }
+
+    .wallpaper-preview-img > svg {
+        position: absolute;
+        z-index: 0;
+    }
+
+    .wallpaper-preview-img:not([style*="background-image: none"]) > svg {
+        z-index: -1;
+    }
+
+    .wallpaper-preview-img.selected {
+        box-shadow: 0 0 0 1px rgba(76, 175, 80, 0.3);
+    }
+
+    .wallpaper-custom-options {
+        gap: 10px;
+    }
+
+    .wallpaper-tab-btn {
+        padding: 10px 12px;
+        font-size: 13px;
+    }
+
+    .wallpaper-input {
+        padding: 12px 14px;
+        font-size: 13px;
+    }
+
+    .wallpaper-browse-btn {
+        padding: 12px 16px;
+        font-size: 13px;
+    }
+
+    .wallpaper-presets {
+        gap: 10px;
+        grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+        max-height: 180px;
+        overflow-y: auto;
+        overflow-x: hidden;
+        padding-right: 4px;
+    }
+
+    .wallpaper-preset-item {
+        width: 100%;
+        max-width: none;
+        aspect-ratio: 16 / 10;
+        border-radius: 8px;
+    }
+
+    .wallpaper-preset-img {
+        border-width: 2px;
+        border-radius: 8px;
+    }
+
+    .wallpaper-preset-item.selected .wallpaper-preset-img {
+        box-shadow: 0 0 0 2px rgba(76, 175, 80, 0.3), 0 4px 20px rgba(76, 175, 80, 0.3);
+    }
+
+    .wallpaper-preset-name {
+        font-size: 11px;
+        padding: 6px 8px;
+        border-radius: 0 0 8px 8px;
+    }
+}
+
+/* 页脚版权信息样式 */
+.footer-copyright {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 100;
+}
+
+/* 快捷访问菜单打开时，footer保持可点击 */
+.context-menu.active ~ .footer-copyright,
+.context-menu.active + .footer-copyright {
+    z-index: 3001 !important;
+}
+
+.footer-text {
+    padding: 4px 20px;
+    text-align: center;
+    font-size: 13px;
+    cursor: default;
+}
+
+.copyright-text {
+    font-family: inherit;
+    color: #f8f8f866;
+}
+
+.copyright-text:hover {
+    color: #f8f8f888;
+}
+
+/* 通知容器样式 */
+.notices {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 10008;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    pointer-events: none;
+}
+
+/* 设置面板样式 - 定位在右上角，仅在快捷访问打开时显示 */
+#settings, .settings {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 10244; /* 高于.notices的10000，确保下拉菜单覆盖通知 */
+    display: none;
+}
+
+.context-menu.active ~ #settings,
+.context-menu.active ~ .settings {
+    display: block;
+}
+
+/* 设置按钮样式 */
+.settings-button {
+    position: relative;
+    cursor: pointer;
+    padding: 8px;
+    border-radius: 50%;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.settings-button::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.2) 0%, transparent 70%);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+}
+
+.setting-button:hover::before {
+    opacity: 1;
+}
+
+.setting-button:active {
+    transform: scale(0.9);
+}
+
+/* 设置下拉菜单样式 */
+.settings-dropdown {
+    position: absolute;
+    top: 50px;
+    right: 0;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+    min-width: 160px;
+    padding: 8px 0;
+    display: none;
+    z-index: 10002;
+}
+
+/* 深色模式适配 */
+[data-theme="dark"] .settings-dropdown {
+    background: #2d2d2d;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+}
+
+.settings-dropdown.active {
+    display: block;
+    animation: dropdownFadeIn 0.2s ease;
+}
+
+@keyframes dropdownFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.settings-menu-item {
+    display: flex;
+    align-items: center;
+    padding: 10px 16px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    gap: 12px;
+}
+
+.settings-menu-item:hover {
+    background-color: #f5f5f5;
+}
+
+/* 深色模式适配 */
+[data-theme="dark"] .settings-menu-item:hover {
+    background-color: #3a3a3a;
+}
+
+.settings-menu-icon {
+    width: 20px;
+    height: 20px;
+    flex-shrink: 0;
+}
+
+.settings-menu-item span {
+    font-size: 14px;
+    color: #333;
+}
+
+/* 深色模式适配 - 图标和文字 */
+[data-theme="dark"] .settings-menu-icon svg path {
+    fill: #a0a0a0;
+}
+
+[data-theme="dark"] .settings-menu-item span {
+    color: #e0e0e0;
+}
+
+/* 设置菜单弹窗样式 */
+.settings-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 10001;
+    display: none;
+    align-items: center;
+    justify-content: center;
+}
+
+.settings-modal.active {
+    display: flex;
+}
+
+.settings-modal-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.3);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.settings-modal.active .settings-modal-overlay {
+    opacity: 1;
+}
+
+.settings-modal-content {
+    position: relative;
+    width: 400px;
+    max-width: 90%;
+    max-height: 80vh;
+    background: var(--modal-bg);
+    border-radius: 12px;
+    box-shadow: 0 8px 32px var(--shadow-color);
+    padding: 20px;
+    opacity: 0;
+    transform: scale(0.95) translateY(-20px);
+    transition: opacity 0.3s ease, transform 0.3s ease, background 0.3s ease;
+    overflow: hidden;
+}
+
+.settings-modal-content.modal-narrow {
+    width: 400px;
+    max-width: 90vw;
+}
+
+/* 壁纸面板使用更宽的布局 */
+#wallpaper-panel .settings-modal-content {
+    width: 720px;
+    max-width: min(720px, 95%);
+    max-height: 90vh;
+}
+
+.settings-modal.active .settings-modal-content {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+}
+
+.settings-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--divider-color);
+}
+
+.settings-title {
+    font-size: 16px;
+    font-weight: 500;
+    color: var(--modal-text);
+    transition: color 0.3s ease;
+}
+
+.settings-close {
+    position: relative;
+    cursor: pointer;
+    padding: 8px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+}
+
+.settings-close::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(128, 128, 128, 0.4) 0%, transparent 70%);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+}
+
+.settings-close:hover::before {
+    opacity: 1;
+}
+
+.settings-close:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.settings-close:active {
+    transform: scale(0.9);
+}
+
+.settings-close svg {
+    display: block;
+}
+
+/* 深色模式适配 - 关闭按钮图标变白 */
+[data-theme="dark"] .settings-close svg path {
+    fill: #FFFFFF;
+}
+
+[data-theme="dark"] .settings-close:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.settings-body {
+    max-height: calc(80vh - 60px);
+    /* 只有内容溢出时才显示滚动条 */
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+/* 隐藏滚动条直到悬停 */
+.settings-body::-webkit-scrollbar {
+    width: 6px;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.settings-body::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.settings-body::-webkit-scrollbar-thumb {
+    background: #CCCCCC;
+    border-radius: 3px;
+}
+
+.settings-body:hover::-webkit-scrollbar,
+.settings-body::-webkit-scrollbar:hover,
+.settings-body:active::-webkit-scrollbar {
+    opacity: 1;
+}
+
+.settings-body::-webkit-scrollbar-thumb:hover {
+    background: #AAAAAA;
+}
+
+.setting-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 48px;
+    padding: 0;
+    border-bottom: 1px solid var(--divider-color);
+    cursor: pointer;
+    transition: background 0.2s ease;
+}
+
+.setting-item:hover {
+    background: var(--button-hover);
+    margin: 0 -20px;
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+.setting-item:last-child {
+    border-bottom: none;
+}
+
+.setting-item-text {
+    font-size: 14px;
+    color: var(--modal-text);
+    flex: 1;
+    word-break: break-word;
+    transition: color 0.3s ease;
+}
+
+/* 纯文本操作项样式（无开关） */
+.setting-item-action {
+    justify-content: flex-start !important;
+}
+
+.setting-item-action .setting-item-text {
+    text-align: left;
+}
+
+/* 深色模式值显示 */
+.setting-item-value {
+    font-size: 12px;
+    color: var(--text-secondary);
+    margin-right: 8px;
+    transition: color 0.3s ease;
+}
+
+.status-indicator {
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.2s ease;
+    cursor: pointer;
+}
+
+.status-indicator:active {
+    transform: scale(0.9);
+}
+
+.status-icon {
+    width: 100%;
+    height: 100%;
+}
+
+.action-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* 移动端适配 */
+@media (max-width: 768px) {
+    .settings-modal-content {
+        width: 90%;
+        max-height: 70vh;
+        padding: 16px;
+    }
+
+    .settings-title {
+        font-size: 15px;
+    }
+
+    .setting-item {
+        padding: 10px 0;
+    }
+
+    .setting-item-text {
+        font-size: 13px;
+    }
+}
+
+/* 可复用关闭按钮样式 */
+.icon-close {
+    position: relative;
+    cursor: pointer;
+    padding: 8px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+}
+
+.icon-close::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(128, 128, 128, 0.4) 0%, transparent 70%);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+}
+
+.icon-close:hover::before {
+    opacity: 1;
+}
+
+.icon-close:hover {
+    background: #F5F5F5;
+}
+
+.icon-close:active {
+    transform: scale(0.95);
+}
+
+.icon-close svg {
+    display: block;
+    width: 20px;
+    height: 20px;
+}
+
+/* 深色模式适配 - 关闭按钮图标变白 */
+[data-theme="dark"] .icon-close svg path {
+    fill: #FFFFFF;
+}
+
+[data-theme="dark"] .icon-close:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+/* 确认对话框样式 */
+.confirm-dialog {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 20000;
+    display: none;
+    align-items: center;
+    justify-content: center;
+}
+
+.confirm-dialog.active {
+    display: flex;
+}
+
+.confirm-dialog-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.3);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.confirm-dialog.active .confirm-dialog-overlay {
+    opacity: 1;
+}
+
+.confirm-dialog-content {
+    position: relative;
+    width: 320px;
+    max-width: 90%;
+    background: #FFFFFF;
+    border-radius: 12px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+    padding: 20px;
+    opacity: 0;
+    transform: scale(0.95) translateY(-20px);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+/* 深色模式适配 */
+[data-theme="dark"] .confirm-dialog-content {
+    background: #2d2d2d;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+}
+
+.confirm-dialog.active .confirm-dialog-content {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+}
+
+.confirm-dialog-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+}
+
+.confirm-dialog-title {
+    font-size: 16px;
+    font-weight: 500;
+    color: #333333;
+}
+
+/* 深色模式适配 */
+[data-theme="dark"] .confirm-dialog-title {
+    color: #e0e0e0;
+}
+
+.confirm-dialog-message {
+    font-size: 14px;
+    color: #666666;
+    margin-bottom: 20px;
+    line-height: 1.5;
+}
+
+/* 深色模式适配 */
+[data-theme="dark"] .confirm-dialog-message {
+    color: #b0b0b0;
+}
+
+.confirm-dialog-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+}
+
+.confirm-dialog-btn {
+    padding: 8px 20px;
+    border-radius: 6px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    border: none;
+}
+
+.confirm-dialog-cancel {
+    background: #F5F5F5;
+    color: #666666;
+}
+
+.confirm-dialog-cancel:hover {
+    background: #EEEEEE;
+}
+
+/* 深色模式适配 */
+[data-theme="dark"] .confirm-dialog-cancel {
+    background: #3a3a3a;
+    color: #e0e0e0;
+}
+
+[data-theme="dark"] .confirm-dialog-cancel:hover {
+    background: #4a4a4a;
+}
+
+.confirm-dialog-ok {
+    background: #4CAF50;
+    color: white;
+}
+
+.confirm-dialog-ok:hover {
+    background: #43A047;
+}
+
+/* 添加快捷方式面板样式 */
+#add-shortcut-panel {
+    display: none;
+    z-index: 10002; /* 高于编辑快捷访问面板的10001 */
+}
+
+#add-shortcut-panel.active {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#add-shortcut-panel .settings-modal-content {
+    width: 720px !important;
+    max-width: min(720px, 95%) !important;
+    position: relative;
+    transform: none !important;
+    opacity: 1 !important;
+}
+
+#add-shortcut-panel .settings-body {
+    padding: 20px;
+}
+
+.add-shortcut-field {
+    margin-bottom: 16px;
+}
+
+.add-shortcut-label {
+    display: block;
+    font-size: 13px;
+    color: var(--text-secondary);
+    margin-bottom: 6px;
+}
+
+.add-shortcut-input {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    font-size: 14px;
+    box-sizing: border-box;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    background: var(--input-bg);
+    color: var(--modal-text);
+}
+
+.add-shortcut-input:focus {
+    outline: none;
+    border-color: #4CAF50;
+    box-shadow: 0 0 0 2px rgba(76, 175, 80, 0.2);
+    background: var(--input-focus-bg);
+}
+
+.add-shortcut-input::placeholder {
+    color: #aaa;
+}
+
+.add-shortcut-preview {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.add-shortcut-preview-label {
+    font-size: 13px;
+    color: #666;
+    margin-right: 12px;
+}
+
+.add-shortcut-preview-box {
+    width: 40px;
+    height: 40px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #f9f9f9;
+}
+
+.add-shortcut-preview-box .icon {
+    width: 32px;
+    height: 32px;
+}
+
+.add-shortcut-buttons {
+    display: flex;
+    gap: 12px;
+    justify-content: flex-end;
+}
+
+.add-shortcut-btn {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 6px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.add-shortcut-cancel {
+    background: var(--button-bg);
+    color: var(--text-secondary);
+}
+
+.add-shortcut-cancel:hover {
+    background: var(--button-hover);
+}
+
+.add-shortcut-save {
+    background: #4CAF50;
+    color: white;
+}
+
+.add-shortcut-save:hover {
+    background: #43A047;
+}
+
+/* 编辑快捷访问面板 */
+.edit-shortcut-header-btns {
+    display: flex;
+    gap: 8px;
+}
+
+.edit-shortcut-header-btns .settings-reset-btn {
+    border: none;
+    background: transparent;
+    border-radius: 4px;
+    padding: 6px 10px;
+    margin: 0;
+}
+
+.edit-shortcut-header-btns .settings-reset-btn:first-child {
+    border-radius: 4px;
+}
+
+.edit-shortcut-header-btns .settings-reset-btn:last-of-type {
+    border-right: none;
+    border-radius: 4px;
+}
+
+.edit-shortcut-header-btns .settings-reset-btn:hover {
+    background: #e0e0e0;
+}
+
+/* 深色模式适配 */
+[data-theme="dark"] .edit-shortcut-header-btns .settings-reset-btn:hover {
+    background: #3a3a3a;
+}
+
+.edit-shortcut-header-btns .settings-close {
+    padding: 6px 8px;
+    margin: 0;
+    border-radius: 4px;
+}
+
+.edit-shortcut-header-btns .settings-close:hover {
+    background: transparent !important;
+}
+
+.settings-reset-btn {
+    background: none;
+    border: none;
+    color: #666;
+    font-size: 14px;
+    cursor: pointer;
+    padding: 6px 12px;
+    border-radius: 4px;
+    transition: background-color 0.2s;
+}
+
+/* 深色模式适配 */
+[data-theme="dark"] .settings-reset-btn {
+    color: #e0e0e0;
+}
+
+.settings-reset-btn:hover {
+    background: #f0f0f0;
+    color: #333;
+}
+
+/* 深色模式悬停适配 */
+[data-theme="dark"] .settings-reset-btn:hover {
+    background: #3a3a3a;
+    color: #ffffff;
+}
+
+/* 编辑面板隐藏按钮样式 */
+.edit-shortcut-hide-btn {
+    background: none;
+    border: none;
+    color: #2196F3;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+    padding: 4px 8px;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 28px;
+    height: 28px;
+    transition: background-color 0.2s, color 0.2s;
+}
+
+.edit-shortcut-hide-btn:hover {
+    background: rgba(33, 150, 243, 0.15);
+}
+
+.edit-shortcut-hide-btn:active {
+    transform: scale(0.95);
+}
+
+/* 已隐藏的H按钮保持蓝色常亮 */
+.edit-shortcut-hide-btn-active {
+    color: #2196F3 !important;
+    background: rgba(33, 150, 243, 0.2) !important;
+}
+
+.edit-shortcut-hide-btn-active:hover {
+    background: rgba(33, 150, 243, 0.3) !important;
+}
+
+/* 隐藏项目的样式 */
+.edit-shortcut-item.hidden-item {
+    opacity: 0.5;
+    background: rgba(245, 245, 245, 0.8);
+}
+
+.edit-shortcut-item.hidden-item .edit-shortcut-item-icon {
+    opacity: 0.6;
+}
+
+.edit-shortcut-item.hidden-item .edit-shortcut-item-text {
+    color: #999;
+}
+
+/* 快捷访问菜单中隐藏项目的样式 */
+.menu-item.preset-item.is-hidden {
+    opacity: 0.3;
+    filter: grayscale(100%);
+}
+
+.menu-item.preset-item.is-hidden .menu-icon {
+    opacity: 0.5;
+}
+
+.menu-item.preset-item.is-hidden .menu-text {
+    color: #aaa;
+}
+
+.edit-shortcut-category {
+    margin-bottom: 8px;
+}
+
+.edit-shortcut-category-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 16px;
+    background: #f5f5f5;
+    cursor: pointer;
+    -webkit-user-select: none;
+    user-select: none;
+    transition: background 0.2s;
+}
+
+.edit-shortcut-category-header:hover {
+    background: #eeeeee;
+}
+
+.edit-shortcut-collapse-icon {
+    transition: transform 0.2s;
+}
+
+.edit-shortcut-category.collapsed .edit-shortcut-collapse-icon {
+    transform: rotate(-90deg);
+}
+
+.edit-shortcut-category.collapsed .edit-shortcut-category-content {
+    display: none;
+}
+
+.edit-shortcut-category-title {
+    font-size: 14px;
+    font-weight: 500;
+    color: #333;
+}
+
+/* 深色模式适配 */
+[data-theme="dark"] .edit-shortcut-category-header {
+    background: #404040;
+}
+
+[data-theme="dark"] .edit-shortcut-category-header:hover {
+    background: #4a4a4a;
+}
+
+[data-theme="dark"] .edit-shortcut-category-title {
+    color: #e0e0e0;
+}
+
+[data-theme="dark"] .edit-shortcut-collapse-icon {
+    color: #ffffff;
+}
+
+.edit-shortcut-category-content {
+    padding: 4px 0;
+}
+
+.edit-shortcut-items {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    padding: 0 8px;
+}
+
+.edit-shortcut-list {
+    overflow-y: auto;
+    padding: 10px 0;
+    max-height: 400px;
+}
+
+.edit-shortcut-item {
+    display: flex;
+    align-items: center;
+    padding: 10px 15px;
+    border-bottom: 1px solid #eee;
+    gap: 10px;
+}
+
+.edit-shortcut-item:last-child {
+    border-bottom: none;
+}
+
+.edit-shortcut-item:hover {
+    background: #fafafa;
+}
+
+/* 深色模式适配 */
+[data-theme="dark"] .edit-shortcut-item {
+    border-color: #404040;
+}
+
+[data-theme="dark"] .edit-shortcut-item:hover {
+    background: #3a3a3a;
+}
+
+.edit-shortcut-item-icon {
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.edit-shortcut-item-icon img {
+    width: 32px;
+    height: 32px;
+    border-radius: 3px;
+}
+
+.edit-shortcut-item-icon .icon {
+    width: 32px;
+    height: 32px;
+}
+
+.edit-shortcut-item-text {
+    flex: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-size: 14px;
+    color: #333;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.preset-tag {
+    background: #F0F0F0;
+    color: #333333;
+    padding: 4px 8px;
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: 500;
+    flex-shrink: 0;
+}
+
+/* 深色模式适配 */
+[data-theme="dark"] .edit-shortcut-item-text {
+    color: #e0e0e0;
+}
+
+[data-theme="dark"] .preset-tag {
+    background: #505050;
+    color: #e0e0e0;
+}
+
+.edit-shortcut-item-actions {
+    display: flex;
+    gap: 5px;
+}
+
+.edit-shortcut-move-btn {
+    width: 28px;
+    height: 28px;
+    border: none;
+    background: #f0f0f0;
+    border-radius: 4px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.2s;
+}
+
+.edit-shortcut-move-btn:hover {
+    background: #e0e0e0;
+}
+
+/* 深色模式适配 */
+[data-theme="dark"] .edit-shortcut-move-btn {
+    background: #404040;
+    color: #ffffff;
+}
+
+[data-theme="dark"] .edit-shortcut-move-btn:hover {
+    background: #505050;
+}
+
+.edit-shortcut-move-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.edit-shortcut-delete {
+    width: 28px;
+    height: 28px;
+    border: none;
+    background: #f0f0f0;
+    border-radius: 4px;
+    color: #e53935;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.2s;
+}
+
+.edit-shortcut-delete:hover:not(:disabled) {
+    background: #ffebee;
+    color: #c62828;
+}
+
+/* 深色模式适配 */
+[data-theme="dark"] .edit-shortcut-delete {
+    background: #404040;
+    color: #ef5350;
+}
+
+[data-theme="dark"] .edit-shortcut-delete:hover:not(:disabled) {
+    background: #5c3a3a;
+    color: #ef5350;
+}
+
+.edit-shortcut-toggle {
+    width: 28px;
+    height: 28px;
+    border: none;
+    background: #f0f0f0;
+    border-radius: 4px;
+    color: #e53935;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.2s;
+}
+
+.edit-shortcut-toggle:hover:not(:disabled) {
+    background: #ffebee;
+    color: #c62828;
+}
+
+/* 深色模式适配 */
+[data-theme="dark"] .edit-shortcut-toggle {
+    background: #404040;
+    color: #ef5350;
+}
+
+[data-theme="dark"] .edit-shortcut-toggle:hover:not(:disabled) {
+    background: #5c3a3a;
+    color: #ef5350;
+}
+
+/* 编辑按钮样式 */
+.edit-shortcut-edit {
+    width: 28px;
+    height: 28px;
+    border: none;
+    background: #f0f0f0;
+    border-radius: 4px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.2s;
+    color: #2196F3 !important;
+}
+
+.edit-shortcut-edit svg {
+    width: 14px;
+    height: 14px;
+    fill: currentColor !important;
+}
+
+.edit-shortcut-edit:hover {
+    background: #E3F2FD;
+}
+
+/* 深色模式适配 */
+[data-theme="dark"] .edit-shortcut-edit {
+    background: #404040;
+}
+
+[data-theme="dark"] .edit-shortcut-edit:hover {
+    background: #3a3a3a;
+}
+
+.edit-shortcut-buttons {
+    display: flex;
+    gap: 12px;
+    justify-content: flex-end;
+    padding-top: 15px;
+    border-top: 1px solid #eee;
+}
+
+/* 深色模式适配 */
+[data-theme="dark"] .edit-shortcut-buttons {
+    border-color: #404040;
+}
+
+.edit-shortcut-btn {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 6px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.edit-shortcut-cancel {
+    background: #f0f0f0;
+    color: #666;
+}
+
+.edit-shortcut-cancel:hover {
+    background: #e0e0e0;
+}
+
+/* 深色模式适配 */
+[data-theme="dark"] .edit-shortcut-cancel {
+    background: #3a3a3a;
+    color: #e0e0e0;
+}
+
+[data-theme="dark"] .edit-shortcut-cancel:hover {
+    background: #4a4a4a;
+}
+
+.edit-shortcut-apply {
+    background: #2196F3;
+    color: white;
+}
+
+.edit-shortcut-apply:hover {
+    background: #1976D2;
+}
+
+.edit-shortcut-ok {
+    background: #4CAF50;
+    color: white;
+}
+
+.edit-shortcut-ok:hover {
+    background: #43A047;
+}
+
+/* 单条通知样式 */
+.notice-item {
+    padding: 12px 16px;
+    border-radius: 4px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    font-family: inherit;
+    font-size: 14px;
+    line-height: 1.5;
+    pointer-events: auto;
+    animation: slideIn 0.3s ease;
+    color: white;
+    z-index: 10240;
+}
+
+.notice-item .notice-title {
+    margin: 0 0 4px 0;
+    font-weight: bold;
+    font-size: 16px;
+}
+
+.notice-item .notice-content {
+    margin: 0;
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateX(100%);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes fadeOut {
+    from {
+        opacity: 1;
+        transform: translateX(0);
+    }
+    to {
+        opacity: 0;
+        transform: translateX(100%);
+    }
+}
+
+.notice-item.removing {
+    animation: fadeOut 0.3s ease forwards;
+}
+
+/* ==================== 移动端通知适配 ==================== */
+@media (max-width: 768px) {
+    /* 编辑快捷访问面板移动端适配 */
+    #edit-shortcut-panel .settings-modal-content {
+        width: 95%;
+        max-height: 85vh;
+        padding: 15px;
+    }
+
+    #edit-shortcut-panel .edit-shortcut-list {
+        max-height: 50vh;
+    }
+
+    .edit-shortcut-item {
+        padding: 8px 10px;
+    }
+
+    .edit-shortcut-buttons {
+        padding: 12px 0 5px 0;
+    }
+
+    .edit-shortcut-btn {
+        padding: 8px 16px;
+        font-size: 13px;
+    }
+
+    .notices {
+        position: fixed;
+        top: auto !important;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        transform: none !important;
+        flex-direction: row !important;
+        justify-content: flex-start;
+        gap: 0;
+        padding: 10px 20px 20px 20px;
+        width: 100%;
+        max-width: 100%;
+        overflow-x: auto;
+    }
+
+    .notice-item {
+        flex-shrink: 0;
+        padding: 8px 14px;
+        font-size: 12px;
+        border-radius: 4px;
+        margin-right: 8px;
+        max-width: none;
+        white-space: nowrap;
+    }
+
+    .notice-item .notice-title {
+        font-size: 12px;
+        margin-bottom: 2px;
+        margin-right: 0;
+        display: block;
+    }
+
+    .notice-item .notice-content {
+        display: block;
+    }
+
+    @keyframes slideInMobile {
+        from {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    @keyframes fadeOutMobile {
+        from {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        to {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+    }
+
+    .notice-item {
+        animation: slideInMobile 0.3s ease;
+    }
+
+    .notice-item.removing {
+        animation: fadeOutMobile 0.3s ease forwards;
+    }
+}
+
+/* ==================== 壁纸设置面板样式 ==================== */
+#wallpaper-panel {
+    display: none;
+}
+
+#wallpaper-panel.active {
+    display: flex;
+}
+
+.wallpaper-body {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    padding: 20px 0;
+    overflow-y: auto;
+}
+
+.wallpaper-section {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    width: 100%;
+    min-width: 0;
+}
+
+.wallpaper-section-label {
+    font-size: 15px;
+    color: #666;
+    font-weight: 500;
+}
+
+/* 深色模式适配 */
+[data-theme="dark"] .wallpaper-section-label {
+    color: #b0b0b0;
+}
+
+.wallpaper-custom-row {
+    display: flex;
+    gap: 20px;
+    align-items: flex-start;
+}
+
+.wallpaper-preview {
+    width: 200px;
+    height: 112px;
+    flex-shrink: 0;
+    border-radius: 10px;
+    overflow: hidden;
+    background: #f5f5f5;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+}
+
+/* 深色模式适配 */
+[data-theme="dark"] .wallpaper-preview {
+    background: #3a3a3a;
+}
+
+.wallpaper-preview-img {
+    width: 100%;
+    height: 100%;
+    background-color: #f5f5f5;
+    background-size: cover;
+    background-position: center;
+    border: 3px solid transparent;
+    border-radius: 10px;
+    transition: all 0.3s;
+    box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
+/* 深色模式适配 */
+[data-theme="dark"] .wallpaper-preview-img {
+    background-color: #3a3a3a;
+    box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.3);
+}
+
+.wallpaper-preview-img > svg {
+    position: absolute;
+    z-index: 0;
+}
+
+.wallpaper-preview-img:not([style*="background-image: none"]) > svg {
+    z-index: -1;
+}
+
+.wallpaper-placeholder-icon {
+    opacity: 0.5;
+}
+
+.wallpaper-preview-img.selected {
+    border-color: #4CAF50;
+    box-shadow: 0 0 0 2px rgba(76, 175, 80, 0.3), 0 4px 20px rgba(76, 175, 80, 0.3);
+}
+
+.wallpaper-preview-img.selected .wallpaper-placeholder-icon {
+    display: none;
+}
+
+.wallpaper-custom-options {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    min-width: 0; /* 防止flex子元素溢出 */
+}
+
+.wallpaper-option-tabs {
+    display: flex;
+    gap: 10px;
+}
+
+.wallpaper-tab-btn {
+    flex: 1;
+    padding: 12px 16px;
+    border: none;
+    background: #F5F5F5;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 14px;
+    color: #666;
+    transition: all 0.3s;
+}
+
+.wallpaper-tab-btn:hover {
+    background: #E8E8E8;
+}
+
+/* 深色模式适配 */
+[data-theme="dark"] .wallpaper-tab-btn {
+    background: #3a3a3a;
+    color: #e0e0e0;
+}
+
+[data-theme="dark"] .wallpaper-tab-btn:hover {
+    background: #4a4a4a;
+}
+
+.wallpaper-tab-btn.active {
+    background: #4CAF50;
+    color: white;
+    font-weight: 500;
+    box-shadow: 0 4px 15px rgba(76, 175, 80, 0.3);
+}
+
+.wallpaper-tab-content {
+    display: none;
+    gap: 10px;
+    align-items: center;
+}
+
+.wallpaper-tab-content.active {
+    display: flex;
+}
+
+.wallpaper-input {
+    flex: 1;
+    min-width: 0;
+    padding: 14px 16px;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    font-size: 14px;
+    outline: none;
+    transition: all 0.3s;
+    color: #333;
+}
+
+/* 深色模式适配 */
+[data-theme="dark"] .wallpaper-input {
+    background: #3a3a3a;
+    border-color: #555;
+    color: #e0e0e0;
+}
+
+[data-theme="dark"] .wallpaper-input::placeholder {
+    color: #888;
+}
+
+.wallpaper-input:focus {
+    border-color: #4CAF50;
+    box-shadow: 0 4px 15px rgba(76, 175, 80, 0.2);
+}
+
+.wallpaper-file-input {
+    display: none;
+}
+
+.wallpaper-browse-btn {
+    padding: 14px 20px;
+    border: none;
+    background: #F5F5F5;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 14px;
+    color: #666;
+    white-space: nowrap;
+    transition: all 0.3s;
+}
+
+/* 深色模式适配 */
+[data-theme="dark"] .wallpaper-browse-btn {
+    background: #3a3a3a;
+    color: #e0e0e0;
+}
+
+.wallpaper-browse-btn:hover {
+    background: #E8E8E8;
+    transform: translateY(-1px);
+}
+
+/* 深色模式悬停适配 */
+[data-theme="dark"] .wallpaper-browse-btn:hover {
+    background: #4a4a4a;
+}
+
+.wallpaper-presets {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+    gap: 10px;
+    width: 100%;
+    max-width: 100%;
+    max-height: 240px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    flex-shrink: 0;
+    padding-right: 4px;
+}
+
+/* 预设区域滚动条样式 */
+.wallpaper-presets::-webkit-scrollbar {
+    width: 6px;
+}
+
+.wallpaper-presets::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.wallpaper-presets::-webkit-scrollbar-thumb {
+    background: #CCCCCC;
+    border-radius: 3px;
+}
+
+.wallpaper-presets::-webkit-scrollbar-thumb:hover {
+    background: #AAAAAA;
+}
+
+.wallpaper-preset-item {
+    position: relative;
+    width: 120px;
+    height: 80px;
+    flex-shrink: 0;
+    border-radius: 8px;
+    overflow: hidden;
+    cursor: pointer;
+    background: #f5f5f5;
+    transition: all 0.3s;
+}
+
+.wallpaper-preset-item:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+}
+
+.wallpaper-preset-img {
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+    border: 2px solid transparent;
+    border-radius: 8px;
+    transition: border-color 0.2s ease;
+}
+
+.wallpaper-preset-item.selected .wallpaper-preset-img {
+    border-color: #4CAF50;
+    box-shadow: 0 0 0 2px rgba(76, 175, 80, 0.3), 0 4px 20px rgba(76, 175, 80, 0.3);
+}
+
+.wallpaper-preset-name {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 8px 10px;
+    background: linear-gradient(transparent, rgba(0, 0, 0, 0.7));
+    color: white;
+    font-size: 12px;
+    text-align: center;
+    border-radius: 0 0 10px 10px;
+}
+
+/* 关于面板样式 */
+.about-body {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    padding: 8px 0;
+}
+
+#edit-shortcut-panel .settings-modal-content {
+    width: 720px;
+    max-width: min(720px, 95%);
+    max-height: 90vh;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+#edit-shortcut-panel .settings-header {
+    flex-shrink: 0;
+}
+
+#edit-shortcut-panel .edit-shortcut-list {
+    flex: 1;
+    overflow-y: auto;
+    min-height: 100px;
+    max-height: 60vh;
+    padding: 10px 0;
+}
+
+#edit-shortcut-panel .edit-shortcut-buttons {
+    flex-shrink: 0;
+    padding-top: 15px;
+    border-top: 1px solid #eee;
+}
+
+#about-panel .settings-modal-content {
+    width: 500px;
+}
+
+.about-title {
+    text-align: center;
+}
+
+.about-title p {
+    font-size: 20px;
+    font-weight: bold;
+    color: #333;
+    margin: 0;
+}
+
+/* 深色模式适配 */
+[data-theme="dark"] .about-title p {
+    color: #e0e0e0;
+}
+
+.about-copyright,
+.about-license,
+.about-icons,
+.about-links {
+    text-align: center;
+}
+
+.about-copyright p {
+    font-size: 16px;
+    color: #333;
+    margin: 0;
+}
+
+/* 深色模式适配 */
+[data-theme="dark"] .about-copyright p {
+    color: #b0b0b0;
+}
+
+.about-license p,
+.about-icons p {
+    font-size: 14px;
+    color: #666;
+    margin: 0;
+}
+
+/* 深色模式适配 */
+[data-theme="dark"] .about-license p,
+[data-theme="dark"] .about-icons p {
+    color: #a0a0a0;
+}
+
+.about-license a,
+.about-icons a {
+    color: #9ACD32;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.about-license a:hover,
+.about-icons a:hover {
+    color: #B0DC34;
+    text-decoration: none;
+}
+
+/* Copyright 链接始终浅蓝色 */
+.about-copyright a {
+    color: #5AC8FA !important;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.about-copyright a:hover {
+    color: #8fd7f8 !important;
+    text-decoration: none;
+}
+
+.about-links {
+    margin-top: 8px;
+}
+
+.about-links > p {
+    font-size: 14px;
+    color: #666;
+    margin: 0 0 12px 0;
+}
+
+/* 深色模式适配 */
+[data-theme="dark"] .about-links > p {
+    color: #a0a0a0;
+}
+
+.about-link-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+}
+
+.about-link-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 14px;
+    border: 1px solid #DDD;
+    border-radius: 6px;
+    background: #5AC8FA;
+    color: #FFF;
+    font-size: 13px;
+    text-decoration: none;
+    transition: all 0.2s ease;
+}
+
+/* 深色模式适配 */
+[data-theme="dark"] .about-link-btn {
+    border-color: #555;
+}
+
+.about-link-btn:hover {
+    background: #8fd7f8;
+    border-color: #CCC;
+}
+
+/* 深色模式悬停适配 */
+[data-theme="dark"] .about-link-btn:hover {
+    border-color: #666;
+}
+
+.about-link-btn.primary {
+    background: #4CAF50;
+    border-color: #4CAF50;
+    color: white;
+}
+
+.about-link-btn.primary:hover {
+    background: #45a049;
+    border-color: #45a049;
+}
+
+.about-link-btn svg {
+    flex-shrink: 0;
+}
+
+.main-badge {
+    font-size: 10px;
+    padding: 2px 5px;
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 3px;
+    margin-left: 4px;
+}
+
+.mirror-badge {
+    font-size: 10px;
+    padding: 2px 5px;
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 3px;
+    margin-left: 4px;
+}
+
+/* ==================== 搜索引擎设置面板样式 ==================== */
+#search-engine-panel .settings-modal-content {
+    width: 720px;
+    max-width: min(720px, 95%);
+    max-height: 90vh;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+#wallpaper-panel .settings-header {
+    flex-shrink: 0;
+}
+
+.wallpaper-header-btns {
+    display: flex;
+    flex-direction: row;
+    gap: 8px;
+    align-items: center;
+}
+
+#search-engine-panel .settings-header {
+    flex-shrink: 0;
+}
+
+.search-engine-header-btns {
+    display: flex;
+    gap: 8px;
+}
+
+#search-engine-list {
+    flex: 1;
+    overflow-y: auto;
+    padding: 8px 0;
+}
+
+.search-engine-category {
+    margin-bottom: 8px;
+}
+
+.search-engine-category-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 16px;
+    background: #f5f5f5;
+    cursor: pointer;
+    -webkit-user-select: none;
+    user-select: none;
+    transition: background 0.2s;
+}
+
+.search-engine-category-header:hover {
+    background: #eeeeee;
+}
+
+.search-engine-collapse-icon {
+    transition: transform 0.2s;
+}
+
+.search-engine-category.collapsed .search-engine-collapse-icon {
+    transform: rotate(-90deg);
+}
+
+.search-engine-category.collapsed .search-engine-category-content {
+    display: none;
+}
+
+.search-engine-category-title {
+    font-size: 14px;
+    font-weight: 500;
+    color: #333;
+}
+
+/* 深色模式适配 */
+[data-theme="dark"] .search-engine-category-header {
+    background: #404040;
+}
+
+[data-theme="dark"] .search-engine-category-header:hover {
+    background: #4a4a4a;
+}
+
+[data-theme="dark"] .search-engine-category-title {
+    color: #e0e0e0;
+}
+
+[data-theme="dark"] .search-engine-collapse-icon {
+    color: #ffffff;
+}
+
+.search-engine-category-content {
+    padding: 4px 0;
+}
+
+.search-engine-items {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    padding: 0 8px;
+}
+
+.search-engine-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 8px 12px;
+    border-radius: 6px;
+    transition: background 0.2s;
+}
+
+.search-engine-item:hover {
+    background: var(--button-hover);
+}
+
+.search-engine-item-icon {
+    width: 24px;
+    height: 24px;
+    min-width: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    overflow: hidden;
+    position: relative;
+    background: transparent;
+    border-radius: 0;
+    clip-path: inset(0 round 0);
+}
+
+.search-engine-item-icon svg {
+    width: 24px !important;
+    height: 24px !important;
+    display: block;
+    overflow: hidden;
+    position: absolute !important;
+    top: 50% !important;
+    left: 50% !important;
+    transform: translate(-50%, -50%) !important;
+    max-width: 24px !important;
+    max-height: 24px !important;
+    border-radius: 0 !important;
+    z-index: auto;
+}
+
+.search-engine-item-icon svg path {
+    display: block;
+}
+
+.search-engine-item-name {
+    flex: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-size: 14px;
+    color: var(--modal-text);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+/* 深色模式适配 */
+[data-theme="dark"] .search-engine-item-name {
+    color: #e0e0e0;
+}
+
+.search-engine-item-actions {
+    display: flex;
+    gap: 5px;
+}
+
+.search-engine-move-btn {
+    width: 28px;
+    height: 28px;
+    border: none;
+    background: #f0f0f0;
+    border-radius: 4px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.2s;
+}
+
+.search-engine-move-btn:hover {
+    background: #e0e0e0;
+}
+
+/* 深色模式适配 */
+[data-theme="dark"] .search-engine-move-btn {
+    background: #404040;
+    color: #ffffff;
+}
+
+[data-theme="dark"] .search-engine-move-btn:hover {
+    background: #505050;
+}
+
+.search-engine-move-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.search-engine-disable,
+.search-engine-enable,
+.search-engine-delete {
+    width: 28px;
+    height: 28px;
+    border: none;
+    background: #f0f0f0;
+    border-radius: 4px;
+    color: #666;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.2s;
+}
+
+.search-engine-disable svg,
+.search-engine-enable svg,
+.search-engine-delete svg {
+    width: 14px;
+    height: 14px;
+    fill: currentColor;
+}
+
+.search-engine-disable:hover,
+.search-engine-enable:hover {
+    background: #e0e0e0;
+}
+
+.search-engine-delete {
+    color: #e53935;
+}
+
+.search-engine-delete:hover:not(:disabled) {
+    background: #ffebee;
+    color: #c62828;
+}
+
+.search-engine-delete:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+}
+
+.search-engine-delete:disabled:hover {
+    background: #f0f0f0;
+}
+
+/* 深色模式适配 */
+[data-theme="dark"] .search-engine-disable,
+[data-theme="dark"] .search-engine-enable,
+[data-theme="dark"] .search-engine-delete {
+    background: #404040;
+    color: #aaa;
+}
+
+[data-theme="dark"] .search-engine-disable:hover,
+[data-theme="dark"] .search-engine-enable:hover {
+    background: #505050;
+}
+
+[data-theme="dark"] .search-engine-delete {
+    color: #ef5350;
+}
+
+[data-theme="dark"] .search-engine-delete:hover:not(:disabled) {
+    background: #5c3a3a;
+    color: #ef5350;
+}
+
+/* 编辑按钮样式 - 与编辑快捷访问面板一致 */
+.search-engine-edit {
+    width: 28px;
+    height: 28px;
+    border: none;
+    background: #f0f0f0;
+    border-radius: 4px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.2s;
+    color: #2196F3 !important;
+}
+
+.search-engine-edit svg {
+    width: 14px;
+    height: 14px;
+    fill: currentColor !important;
+}
+
+.search-engine-edit:hover {
+    background: #E3F2FD;
+}
+
+/* 深色模式适配 */
+[data-theme="dark"] .search-engine-edit {
+    background: #404040;
+}
+
+[data-theme="dark"] .search-engine-edit:hover {
+    background: #3a3a3a;
+}
+
+.search-engine-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding: 12px 16px;
+    border-top: 1px solid #eeeeee;
+    flex-shrink: 0;
+}
+
+.search-engine-error-row {
+    display: flex;
+    justify-content: flex-start;
+}
+
+.search-engine-btn-row {
+    display: flex;
+    justify-content: flex-end;
+    gap: 8px;
+}
+
+.search-engine-btn {
+    padding: 8px 16px;
+    border: none;
+    border-radius: 6px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background 0.2s, color 0.2s;
+}
+
+.search-engine-cancel {
+    background: #f5f5f5;
+    color: #666;
+}
+
+.search-engine-cancel:hover {
+    background: #e8e8e8;
+}
+
+/* 深色模式适配 */
+[data-theme="dark"] .search-engine-cancel {
+    background: #3a3a3a;
+    color: #e0e0e0;
+}
+
+[data-theme="dark"] .search-engine-cancel:hover {
+    background: #4a4a4a;
+}
+
+.search-engine-apply,
+.search-engine-ok {
+    background: #4CAF50;
+    color: white;
+}
+
+.search-engine-apply:hover,
+.search-engine-ok:hover {
+    background: #43A047;
+}
+
+/* 添加搜索引擎面板样式 */
+#add-search-engine-panel .settings-body {
+    padding: 20px;
+}
+
+.url-format-hint {
+    display: block;
+    font-size: 12px;
+    color: #999;
+    margin-top: 4px;
+}
+
+.add-shortcut-error {
+    display: block;
+    font-size: 12px;
+    color: #f44336;
+    margin-top: 4px;
+    min-height: 16px;
+}
+
+/* 搜索引擎面板移动端适配 */
+@media (max-width: 480px) {
+    #search-engine-panel .settings-modal-content {
+        width: 95%;
+        max-height: 85vh;
+        padding: 15px;
+    }
+    
+    .search-engine-category-header {
+        padding: 8px 12px;
+    }
+    
+    .search-engine-item {
+        padding: 6px 8px;
+    }
+    
+    .search-engine-item-actions {
+        opacity: 1;
+    }
+}
+
+/* 壁纸设置面板移动端适配 */
+@media (max-width: 768px) {
+    .wallpaper-custom-row {
+        flex-direction: column;
+        gap: 15px;
+        align-items: center;
+    }
+    
+    .wallpaper-preview {
+        width: 200px;
+        max-width: 200px;
+    }
+    
+    .wallpaper-preview-img {
+        height: auto;
+        aspect-ratio: 16 / 9;
+    }
+    
+    .wallpaper-custom-options {
+        width: 100%;
+    }
+    
+    .wallpaper-option-tabs {
+        width: 100%;
+    }
+    
+    .wallpaper-tab-btn {
+        flex: 1;
+        padding: 14px 8px;
+        font-size: 13px;
+    }
+    
+    .wallpaper-tab-content {
+        flex-direction: column;
+    }
+    
+    .wallpaper-input {
+        width: 100%;
+        font-size: 13px;
+    }
+    
+    .wallpaper-browse-btn {
+        width: 100%;
+        margin-top: 8px;
+    }
+}
+
+/* ==================== 搜索历史下拉列表 ==================== */
+.search-history-dropdown {
+    position: fixed;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--card-bg);
+    border-radius: 8px;
+    box-shadow: 0 4px 20px var(--shadow-color);
+    min-width: 280px;
+    max-width: 90vw;
+    max-height: calc(100vh - 350px);
+    overflow-y: auto;
+    z-index: 1000;
+    display: none;
+    flex-direction: column;
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+}
+
+/* 桌面端历史记录列表容器 - 确保至少显示一条记录 */
+.search-history-dropdown .search-history-list {
+    flex: 1;
+    min-height: 40px;
+    overflow-y: auto;
+}
+
+/* 桌面端历史记录控制区域 - 高度固定不变 */
+.search-history-dropdown .search-history-control {
+    flex-shrink: 0;
+    min-height: 44px;
+    max-height: 44px;
+}
+
+/* 移动端历史记录下拉菜单 - 默认隐藏 */
+.search-history-mobile-dropdown {
+    display: none;
+}
+
+/* 移动端媒体查询 */
+@media (max-width: 768px) {
+    /* 隐藏桌面端历史记录菜单 */
+    .search-history-dropdown {
+        display: none !important;
+    }
+    
+    /* 显示移动端历史记录菜单 */
+    .search-history-mobile-dropdown {
+        display: none;
+        flex-direction: column;
+        background: rgba(255, 255, 255, 0.45);
+        -webkit-backdrop-filter: blur(10px);
+        backdrop-filter: blur(10px);
+        border: 2px solid rgba(255, 255, 255, 0.5);
+        border-radius: 12px;
+        max-height: 60vh;
+        overflow: hidden;
+        z-index: 1000;
+    }
+    
+    [data-theme="dark"] .search-history-mobile-dropdown {
+        background: rgba(60, 60, 60, 0.5);
+        border: 2px solid rgba(255, 255, 255, 0.2);
+    }
+    
+    .search-history-mobile-dropdown.active {
+        display: flex;
+    }
+    
+    /* 移动端历史记录菜单容器 - 确保控制区域始终可见 */
+    .search-history-mobile-dropdown {
+        /* 最小高度 = 控制区域高度 + 至少一条历史记录高度 */
+        min-height: 90px;
+    }
+    
+    /* 移动端历史记录列表 - 可滚动区域 */
+    .search-history-mobile-dropdown .search-history-list {
+        flex: 1;
+        min-height: 40px; /* 至少能显示一条历史记录 */
+        overflow-y: auto;
+        padding: 4px;
+    }
+    
+    /* 移动端历史记录滚动条样式 */
+    .search-history-mobile-dropdown .search-history-list::-webkit-scrollbar {
+        width: 6px;
+    }
+    
+    .search-history-mobile-dropdown .search-history-list::-webkit-scrollbar-track {
+        background: transparent;
+    }
+    
+    .search-history-mobile-dropdown .search-history-list::-webkit-scrollbar-thumb {
+        background: rgba(0, 0, 0, 0.2);
+        border-radius: 3px;
+    }
+    
+    .search-history-mobile-dropdown .search-history-list::-webkit-scrollbar-thumb:hover {
+        background: rgba(0, 0, 0, 0.3);
+    }
+    
+    [data-theme="dark"] .search-history-mobile-dropdown .search-history-list::-webkit-scrollbar-thumb {
+        background: rgba(255, 255, 255, 0.3);
+    }
+    
+    [data-theme="dark"] .search-history-mobile-dropdown .search-history-list::-webkit-scrollbar-thumb:hover {
+        background: rgba(255, 255, 255, 0.5);
+    }
+    
+    /* 复桌面端样式 */
+    .search-history-mobile-dropdown .search-history-control {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 5px 14px;
+        border-bottom: 1px solid var(--divider-color);
+        flex-shrink: 0;
+        min-height: 44px;
+        max-height: 44px;
+    }
+    
+    .search-history-mobile-dropdown .search-history-title {
+        font-size: 14px;
+        font-weight: 500;
+        color: var(--text-color);
+    }
+    
+    .search-history-mobile-dropdown .search-history-clear {
+        font-size: 12px;
+        color: var(--text-color);
+        cursor: pointer;
+        transition: color 0.2s;
+    }
+
+    [data-theme="dark"] .search-history-mobile-dropdown .search-history-clear {
+        color: #e0e0e0;
+    }
+    
+    /* 移动端历史记录开关样式 */
+    .search-history-mobile-dropdown .search-history-toggle {
+        display: flex;
+        align-items: center;
+        cursor: pointer;
+        padding: 2px 6px;
+        margin-right: auto;
+        border-radius: 4px;
+        transition: background-color 0.2s;
+    }
+
+    .search-history-mobile-dropdown .search-history-toggle:hover {
+        background: rgba(0, 0, 0, 0.06);
+    }
+
+    [data-theme="dark"] .search-history-mobile-dropdown .search-history-toggle:hover {
+        background: rgba(255, 255, 255, 0.1);
+    }
+
+    .search-history-mobile-dropdown .search-history-toggle span:first-child {
+        font-size: 12px;
+        color: var(--text-color);
+        transition: color 0.2s;
+    }
+
+    [data-theme="dark"] .search-history-mobile-dropdown .search-history-toggle span:first-child {
+        color: #e0e0e0;
+    }
+
+    .search-history-mobile-dropdown .status-indicator {
+        width: 22px;
+        height: 22px;
+        margin-left: 4px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.2s;
+    }
+
+    .search-history-mobile-dropdown .status-icon {
+        width: 18px;
+        height: 18px;
+        fill: white;
+    }
+
+    .search-history-mobile-dropdown .status-indicator.enabled .status-icon {
+        opacity: 1;
+    }
+
+    .search-history-mobile-dropdown .status-indicator:not(.enabled) .status-icon {
+        opacity: 0.5;
+    }
+    
+    .search-history-mobile-dropdown .search-history-clear:hover {
+        color: var(--danger-color);
+    }
+    
+    .search-history-mobile-dropdown .search-history-list {
+        padding: 4px;
+    }
+    
+    .search-history-mobile-dropdown .search-history-item {
+        display: flex;
+        align-items: center;
+        padding: 4px 12px;
+        cursor: pointer;
+        border-radius: 6px;
+        transition: background-color 0.15s;
+        color: var(--text-color);
+    }
+    
+    .search-history-mobile-dropdown .search-history-item:hover {
+        background: var(--button-bg);
+    }
+    
+    .search-history-mobile-dropdown .search-history-item.highlighted {
+        background: var(--button-bg);
+        box-shadow: inset 0 0 0 2px var(--accent-color, #9acd32);
+    }
+    
+    .search-history-mobile-dropdown .search-history-item-icon {
+        width: 18px;
+        height: 18px;
+        margin-right: 10px;
+        opacity: 0.5;
+    }
+    
+    .search-history-mobile-dropdown .search-history-item-text {
+        flex: 1;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        color: var(--text-color);
+    }
+    
+    .search-history-mobile-dropdown .search-history-item-delete {
+        opacity: 1;
+        padding: 4px;
+        cursor: pointer;
+        transition: opacity 0.2s;
+    }
+    
+    .search-history-mobile-dropdown .search-history-item-delete svg {
+        width: 14px;
+        height: 14px;
+        fill: var(--text-secondary);
+    }
+    
+    .search-history-mobile-dropdown .search-history-item-delete:hover svg {
+        fill: var(--danger-color);
+    }
+    
+    .search-history-mobile-dropdown .search-history-empty {
+        padding: 20px;
+        text-align: center;
+        color: var(--text-color);
+    }
+
+    [data-theme="dark"] .search-history-mobile-dropdown .search-history-empty {
+        color: #e0e0e0;
+    }
+}
+
+.search-history-dropdown.active {
+    display: flex;
+}
+
+.search-history-control {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 14px;
+    border-bottom: 1px solid var(--divider-color);
+}
+
+.search-history-title {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--text-color);
+}
+
+.search-history-clear {
+    font-size: 12px;
+    color: #333;
+    cursor: pointer;
+    transition: color 0.2s;
+}
+
+[data-theme="dark"] .search-history-clear {
+    color: #e0e0e0;
+}
+
+.search-history-clear:hover {
+    color: var(--danger-color);
+}
+
+.search-history-list {
+    padding: 4px;
+}
+
+.search-history-item {
+    display: flex;
+    align-items: center;
+    padding: 8px 12px;
+    cursor: pointer;
+    border-radius: 6px;
+    transition: background-color 0.15s;
+}
+
+.search-history-item:hover {
+    background: var(--button-bg);
+}
+
+/* 历史记录键盘导航高亮样式 */
+.search-history-item.highlighted {
+    background: var(--button-bg);
+    box-shadow: inset 0 0 0 2px var(--accent-color, #9acd32);
+}
+
+.search-history-item-icon {
+    width: 18px;
+    height: 18px;
+    margin-right: 10px;
+    opacity: 0.5;
+}
+
+.search-history-item-text {
+    flex: 1;
+    font-size: 14px;
+    color: var(--text-color);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.search-history-item-delete {
+    width: 24px;
+    height: 24px;
+    padding: 4px;
+    margin-left: 8px;
+    border: none;
+    background: transparent;
+    border-radius: 4px;
+    color: #999;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.2s, color 0.2s;
+}
+
+.search-history-item-delete svg {
+    width: 14px;
+    height: 14px;
+    fill: currentColor;
+}
+
+.search-history-item-delete:hover {
+    background: rgba(229, 57, 53, 0.15);
+    color: #e53935;
+}
+
+.search-history-item-delete svg {
+    width: 100%;
+    height: 100%;
+}
+
+.search-history-empty {
+    padding: 20px 14px;
+    text-align: center;
+    color: #333;
+    font-size: 13px;
+}
+
+[data-theme="dark"] .search-history-empty {
+    color: #e0e0e0;
+}
+
+/* 深色模式下搜索历史样式适配 */
+[data-theme="dark"] .search-history-dropdown {
+    background: rgba(45, 45, 45, 0.95);
+}
+
+[data-theme="dark"] .search-history-item:hover {
+    background: rgba(80, 80, 80, 0.8);
+}
+
+/* ==================== 搜索框内的历史记录下拉列表 ==================== */
+/* 历史记录下拉列表 - 与搜索框一体式设计 */
+.search-box-circle .search-history-dropdown {
+    position: absolute;
+    right: 40px;
+    top: calc(100% + 4px);
+    width: calc(100% - 57px);
+    max-width: 400px;
+    background: rgba(255, 255, 255, 0.45);
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+    border: 2px solid rgba(255, 255, 255, 0.5);
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+    display: none;
+    flex-direction: column;
+    z-index: 100;
+    box-sizing: border-box;
+    max-height: calc(100vh - 350px);
+    overflow: hidden;
+}
+
+/* 深色模式适配 */
+[data-theme="dark"] .search-box-circle .search-history-dropdown {
+    background: rgba(60, 60, 60, 0.5);
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+}
+
+/* 历史记录列表容器 - 可滚动区域 */
+.search-box-circle .search-history-list {
+    flex: 1;
+    min-height: 0;
+    overflow-y: auto;
+    padding: 4px;
+}
+
+/* 历史记录项 */
+.search-box-circle .search-history-item {
+    display: flex;
+    align-items: center;
+    padding: 2px 12px;
+    cursor: pointer;
+    border-radius: 6px;
+    transition: background-color 0.15s;
+    color: var(--text-color);
+}
+
+.search-box-circle .search-history-item:hover {
+    background: rgba(76, 175, 80, 0.15);
+}
+
+.search-box-circle .search-history-item-text {
+    flex: 1;
+    font-size: 14px;
+    color: var(--text-color);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    text-align: left;
+}
+
+.search-box-circle .search-history-item-delete {
+    width: 24px;
+    height: 24px;
+    padding: 3px;
+    margin-left: 8px;
+    border: none;
+    background: transparent;
+    border-radius: 4px;
+    color: #333;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.2s, color 0.2s;
+}
+
+.search-box-circle .search-history-item-delete svg {
+    width: 12px;
+    height: 12px;
+    fill: currentColor;
+}
+
+.search-box-circle .search-history-item-delete:hover {
+    background: rgba(229, 57, 53, 0.15);
+    color: #e53935;
+}
+
+/* 深色模式适配 */
+[data-theme="dark"] .search-box-circle .search-history-item-delete {
+    color: #e0e0e0;
+}
+
+[data-theme="dark"] .search-box-circle .search-history-item-delete:hover {
+    background: rgba(229, 57, 53, 0.25);
+    color: #ef5350;
+}
+
+.search-box-circle .search-history-empty {
+    padding: 20px 16px;
+    text-align: center;
+    color: #333;
+    font-size: 12px;
+}
+
+[data-theme="dark"] .search-box-circle .search-history-empty {
+    color: #e0e0e0;
+}
+
+/* 历史记录控制栏 - 固定在底部不参与滚动 */
+.search-box-circle .search-history-control {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    padding: 4px 8px;
+    border-top: 1px solid rgba(0, 0, 0, 0.08);
+    flex-shrink: 0;
+}
+
+[data-theme="dark"] .search-box-circle .search-history-control {
+    border-top-color: rgba(255, 255, 255, 0.1);
+}
+
+.search-box-circle .search-history-clear {
+    font-size: 11px;
+    color: #333;
+    cursor: pointer;
+    transition: color 0.2s;
+    padding: 4px 8px;
+    border-radius: 4px;
+}
+
+.search-box-circle .search-history-clear:hover {
+    color: var(--danger-color);
+    background: rgba(211, 47, 47, 0.1);
+}
+
+/* 深色模式适配 */
+[data-theme="dark"] .search-box-circle .search-history-clear {
+    color: #e0e0e0;
+}
+
+[data-theme="dark"] .search-box-circle .search-history-clear:hover {
+    color: #ef5350;
+    background: rgba(239, 83, 80, 0.15);
+}
+
+/* 历史记录头部 - 开关按钮 */
+.search-box-circle .search-history-toggle {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    padding: 2px 6px;
+    margin-right: auto;
+    border-radius: 4px;
+    transition: background-color 0.2s;
+}
+
+.search-box-circle .search-history-toggle:hover {
+    background: rgba(0, 0, 0, 0.06);
+}
+
+[data-theme="dark"] .search-box-circle .search-history-toggle:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.search-box-circle .search-history-toggle span:first-child {
+    font-size: 11px;
+    color: #333;
+    transition: color 0.2s;
+    padding: 0;
+    border-radius: 0;
+}
+
+[data-theme="dark"] .search-box-circle .search-history-toggle span:first-child {
+    color: #e0e0e0;
+}
+
+.search-box-circle .status-indicator {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+}
+
+.search-box-circle .status-icon {
+    width: 20px;
+    height: 20px;
+    fill: white;
+}
+
+.search-box-circle .status-indicator.enabled .status-icon {
+    opacity: 1;
+}
+
+.search-box-circle .status-indicator:not(.enabled) .status-icon {
+    opacity: 0.5;
+}
+
+/* 滚动条样式 */
+.search-box-circle .search-history-list::-webkit-scrollbar {
+    width: 4px;
+}
+
+.search-box-circle .search-history-list::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.search-box-circle .search-history-list::-webkit-scrollbar-thumb {
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 2px;
+}
+
+[data-theme="dark"] .search-box-circle .search-history-list::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.2);
+}
