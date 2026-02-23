@@ -1,8 +1,7 @@
 /*
  * HarmonyMagic StartPage
  * Copyright (C) 2026 anjisuan608 <anjisuan608@petalmail.com> and contributors
- * Copyright (C) 2026 Whiterrabbit <379126402@qq.com> and contributors
- * 
+ *
  * SPDX-License-Identifier: GPL-3.0-or-later
  * 
  * This program is free software: you can redistribute it and/or modify
@@ -22,11 +21,10 @@
 // 控制台输出
 console.log(`
 \x1b[32m
-Harmony Magic Start Page - Whiterrabbit Edition
+Harmony Magic Start Page
 欢迎来到和谐魔法起始页!
 \x1b[0m
 © 2026 anjisuan608
-© 2026 Whiterrabbit
 Licensed under GPLv3
 `);
 
@@ -3737,15 +3735,13 @@ document.addEventListener('DOMContentLoaded', async function() {
             const url = wp.querySelector('url')?.textContent || '';
             const comment = wp.querySelector('comment')?.textContent || '';
             
-            // 缩略图URL（添加尺寸参数）
-            const thumbnailUrl = url + '&width=240&height=135&crop=1';
-            
+            // 缩略图URL（直接使用原始URL，尺寸由CSS控制）
             const item = document.createElement('div');
             item.className = 'wallpaper-preset-item';
             item.dataset.id = id;
             item.title = comment; // 悬停显示 comment
             item.innerHTML = `
-                <div class="wallpaper-preset-img" style="background-image: url('${thumbnailUrl}');"></div>
+                <div class="wallpaper-preset-img" style="background-image: url('${url}');"></div>
                 <div class="wallpaper-preset-name">${title}</div>
                 <div class="wallpaper-preset-checkmark">✓</div>
             `;
@@ -4932,6 +4928,7 @@ document.addEventListener('DOMContentLoaded', async function() {
             const item = document.createElement('div');
             item.className = 'search-engine-item';
             item.dataset.engineId = engine.id;
+            item.title = engine.comment || ''; // 悬停显示 comment
             const isPreset = presetIds.includes(engine.id); // 判断是否为预设搜索引擎
             const isFirst = index === 0;
             const isLast = index === engines.length - 1;
@@ -6888,6 +6885,7 @@ document.addEventListener('DOMContentLoaded', async function() {
             const item = document.createElement('div');
             item.className = 'search-engine-item';
             item.dataset.engineId = engine.id;
+            item.title = engine.comment || ''; // 悬停显示 comment
             const isPreset = presetIds.includes(engine.id);
             const isFirst = index === 0;
             const isLast = index === engines.length - 1;
