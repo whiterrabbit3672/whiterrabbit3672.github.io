@@ -1414,7 +1414,7 @@ document.addEventListener('DOMContentLoaded', async function() {
                 box.setAttribute('data-engine-id', engineId);
                 
                 // 渲染图标（支持图标名称和完整SVG两种格式）
-                if (contentDiv && engine.icon) {
+                if (contentDiv) {
                     contentDiv.innerHTML = getSearchEngineIcon(engine.icon);
                 }
                 
