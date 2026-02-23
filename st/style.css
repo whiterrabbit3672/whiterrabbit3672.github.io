@@ -2765,6 +2765,17 @@ body[data-filter-disabled="true"]::after {
     margin: 0;
 }
 
+.about-oem {
+    text-align: center;
+}
+
+.about-oem p {
+    font-size: 16px;
+    font-weight: bold;
+    color: #666;
+    margin: 0;
+}
+
 /* 深色模式适配 */
 [data-theme="dark"] .about-title p {
     color: #e0e0e0;
@@ -2790,7 +2801,7 @@ body[data-filter-disabled="true"]::after {
 
 .about-license p,
 .about-icons p {
-    font-size: 14px;
+    font-size: 16px;
     color: #666;
     margin: 0;
 }
@@ -2803,26 +2814,26 @@ body[data-filter-disabled="true"]::after {
 
 .about-license a,
 .about-icons a {
-    color: #9ACD32;
+    color: #5AC8FA;
     text-decoration: none;
     font-weight: 500;
 }
 
 .about-license a:hover,
 .about-icons a:hover {
-    color: #B0DC34;
+    color: #8fd7f8;
     text-decoration: none;
 }
 
 /* Copyright 链接始终浅蓝色 */
 .about-copyright a {
-    color: #5AC8FA !important;
+    color: #9ACD32 !important;
     text-decoration: none;
     font-weight: 500;
 }
 
 .about-copyright a:hover {
-    color: #8fd7f8 !important;
+    color: #B0DC34 !important;
     text-decoration: none;
 }
 
