@@ -2772,13 +2772,29 @@ body[data-filter-disabled="true"]::after {
 .about-oem p {
     font-size: 16px;
     font-weight: bold;
-    color: #666;
+    color: #444;
     margin: 0;
+}
+
+.open-source-repository {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.open-source-repository p {
+    font-size: 15px;
+    font-weight: bold;
+    color: #777
 }
 
 /* 深色模式适配 */
 [data-theme="dark"] .about-title p {
     color: #e0e0e0;
+}
+
+[data-theme="dark"] .about-oem p {
+    color: #b0b0b0;
 }
 
 .about-copyright,
@@ -2797,6 +2813,10 @@ body[data-filter-disabled="true"]::after {
 /* 深色模式适配 */
 [data-theme="dark"] .about-copyright p {
     color: #b0b0b0;
+}
+
+[data-theme="dark"] .open-source-repository p {
+    color: #e0e0e0;
 }
 
 .about-license p,
