@@ -276,6 +276,16 @@ body[data-filter-disabled="true"]::after {
     display: flex;
     align-items: center;
     justify-content: center;
+    width: 22px!important;
+    height: 22px!important;
+}
+
+/* 搜索引擎图标大小控制 - img 标签 */
+.search-circle-content .search-icon,
+.search-circle-content img {
+    width: 22px;
+    height: 22px;
+    border-radius: 3px;
 }
 
 /* 引擎名称滑入动画 - 贴在图标右侧 */
@@ -322,12 +332,6 @@ body[data-filter-disabled="true"]::after {
         opacity: 0;
         transform: translateY(20%);
     }
-}
-
-.search-box-circle .search-icon {
-    width: 20px;
-    height: 20px;
-    transition: opacity 0.3s ease;
 }
 
 /* 展开的圆形搜索框内的输入框样式 */
@@ -587,13 +591,14 @@ body[data-filter-disabled="true"]::after {
     color: #81C784;
 }
 
-.search-icon {
+.search-icon,
+.search-icon svg {
     position: absolute;
     left: 50%;
     top: 50%;
     transform: translate(-50%, -50%);
-    width: 20px;
-    height: 20px;
+    width: 22px;
+    height: 22px;
     z-index: 1;
     border-radius: 3px; /* 让favicon图标更美观 */
     opacity: 1;
