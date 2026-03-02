@@ -1,15 +1,16 @@
 <!--
   HarmonyMagic StartPage
   Copyright (C) 2026 anjisuan608 <anjisuan608@petalmail.com> and contributors
+  Copyright (C) 2026 Whiterrabbit <379126402@qq.com> and contributors
 
-  SPDX-License-Identifier: GPL-3.0-or-later
-
+  SPDX-License-Identifier: AGPL-3.0-or-later
+  
   This program is free software: you can redistribute it and/or modify
-  it under the terms of the GNU General Public License as published by
+  it under the terms of the GNU Affero General Public License as published by
   the Free Software Foundation, either version 3 of the License, or
   (at your option) any later version.
-
-  Full license: ./LICENSE or https://www.gnu.org/licenses/gpl-3.0.txt
+  
+  Full license: ./LICENSE or https://www.gnu.org/licenses/agpl-3.0.txt
 -->
 
 # HarmonyMagic 起始页
@@ -52,7 +53,7 @@
 ├── search-engine.json  # 搜索引擎配置
 ├── quick-access.json   # 快捷访问配置
 ├── wallpaper.xml       # 壁纸配置
-├── LICENSE             # GPLv3 许可证
+├── LICENSE             # AGPLv3 许可证
 └── README.md           # 本文件
 ```
 
@@ -374,4 +375,4 @@ brew services start nginx
 
 ## 许可证
 
-本项目基于 GPLv3 开源协议，详见 [LICENSE](./LICENSE) 文件。
+本项目基于 AGPLv3 开源协议，详见 [LICENSE](./LICENSE) 文件。
