@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>模组列表 | forge1.20.1</title>
+    <link rel="stylesheet" href="homepage.css">
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #34495e;
+            --accent-color: #68cce6;
+        }
+        .mods-section {
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 8px;
+            margin: 20px 0;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .mods-title {
+            color: var(--primary-color);
+            border-bottom: 2px solid var(--accent-color);
+            padding-bottom: 10px;
+            margin-bottom: 25px;
+        }
+        .mod-image-box {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .mod-image-box p {
+            color: var(--primary-color);
+            font-weight: bold;
+            margin-top: 12px;
+        }
+        .mod-category {
+            margin-bottom: 30px;
+        }
+        .mod-category h3 {
+            color: var(--secondary-color);
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .mod-category h3::before {
+            content: "■";
+            color: var(--accent-color);
+            font-size: 16px;
+        }
+        /* 统一的自动排列网格布局 */
+        .mod-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            gap: 16px;
+            width: 100%;
+        }
+        .mod-card {
+            background: #f8f9fa;
+            padding: 16px;
+            border-radius: 6px;
+            border-left: 3px solid var(--accent-color);
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        .mod-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 3px 6px rgba(0,0,0,0.1);
+        }
+        .mod-name {
+            font-weight: bold;
+            color: var(--primary-color);
+            font-size: 16px;
+        }
+        .mod-desc {
+            font-size: 14px;
+            color: #555;
+            line-height: 1.4;
+            flex: 1;
+        }
+        .mod-tag {
+            display: inline-block;
+            background: var(--accent-color);
+            color: #1a1a1a;
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            text-align: center;
+        }
+        .mod-tag a {
+            color: #ffffff;
+            text-decoration: none;
+            display: block;
+            display: block;
+            width: 100%;
+            height: 100%;
+            line-height: 1.4;
+        }
+        .mod-tag:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 4px 10px rgba(104, 204, 230, 0.4);
+            background: #57b8d8;
+        }
+        .mod-tag a:hover {
+             text-decoration: none;
+        }
+        .mod-tag a {
+            color: #ffffff;
+            text-decoration: none;
+            display: block;
+        }
+        .mod-tag:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 4px 10px rgba(104, 204, 230, 0.4);
+            background: #57b8d8;
+        }
+        .mod-tag a:hover {
+            text-decoration: underline;
+        }
+        .mod-tag a {
+            color: #ffffff;
+            text-decoration: none;
+        }
+        .mod-tag a:hover {
+            text-decoration: underline;
+        }
+        @media (max-width: 768px) {
+            .mod-grid {
+                grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            }
+            .mods-section {
+                padding: 20px;
+            }
+        }
+        @media (max-width: 480px) {
+            .mod-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+<header>
+    <div class="container">
+        <h1 class="minecraft-font">我的世界服务器</h1>
+        <nav>
+            <ul>
+                <li><a href="index new.html">首页</a></li>
+                <li><a href="#">服务器</a></li>
+                <li><a href="#">管理员</a></li>
+                <li><a href="#">帮助</a></li>
+            </ul>
+        </nav>
+    </div>
+</header>
+
+<div class="container">
+    <div class="mods-section">
+        <h2 class="mods-title minecraft-font">服务器模组列表</h2>
+        <div class="mod-image-box">
+            <p>服务器已安装模组一览</p>
+        </div>
+
+        <!-- 模组分类容器 -->
+        <div id="mods-container"></div>
+    </div>
+</div>
+
+<footer>
+    <div class="container">
+        <p>&copy; 2026 我的世界服务器 | 保留所有权利</p>
+    </div>
+</footer>
+
+<script>
+    // 模组数据 - 后续添加模组只需修改这个数组
+    const modsData = [
+        {
+            category: "核心依赖 / 库模组",
+            mods: [
+                { name: "Minecraft Forge", desc: "模组加载核心，所有模组运行基础", tag: "链接", link: "https://www.mcmod.cn/class/30.html" },
+                { name: "architectury-api", desc: "提供通用工具和渲染 API", tag: "链接", link: "https://www.mcmod.cn/class/3434.html" },
+                { name: "BCLib", desc: "为生物群系、地形生成提供通用库支持", tag: "链接", link: "https://www.mcmod.cn/class/24407.html" },
+                { name: "citadel", desc: "生物 AI 与渲染库，Alex's Mobs 等模组的前置", tag: "链接", link: "https://www.mcmod.cn/class/2232.html" },
+                { name: "collective", desc: "通用工具库，提供大量简化开发的函数", tag: "链接", link: "https://www.mcmod.cn/class/02652.html" },
+                { name: "coroutil", desc: "事件和工具支持", tag: "链接", link: "https://www.mcmod.cn/class/706.html" },
+                { name: "CreativeCore", desc: "Create 前置", tag: "链接", link: "https://www.mcmod.cn/class/1283.html" },
+                { name: "Corgilib", desc: "提供数据处理网络通信基础功能", tag: "链接", link: "https://www.mcmod.cn/class/8018.html" },
+                { name: "embeddium", desc: "高性能渲染优化库", tag: "链接", link: "https://www.mcmod.cn/class/12028.html" },
+                { name: "framework", desc: "通用框架库", tag: "链接", link: "https://www.mcmod.cn/class/5307.html" },
+                { name: "geckolib", desc: "3D 动画核心库", tag: "链接", link: "https://www.mcmod.cn/class/3232.html" },
+                { name: "kotlinforforge", desc: "为使用 Kotlin 语言编写的模组提供运行环境", tag: "链接", link: "https://www.mcmod.cn/class/2890.html" },
+                { name: "libIPN", desc: "物品提示与界面 API", tag: "链接", link: "https://www.mcmod.cn/class/4104.html" },
+                { name: "libraryferret", desc: "提供文件处理配置读取函数", tag: "链接", link: "https://www.mcmod.cn/class/5832.html" },
+                { name: "l2library", desc: "通用工具库", tag: "链接", link: "https://www.mcmod.cn/class/7075.html" },
+                { name: "memoryleakfix", desc: "修复游戏内存泄漏", tag: "链接", link: "https://www.mcmod.cn/class/6593.html" },
+                { name: "patchouli", desc: "为模组提供内置手册", tag: "链接", link: "https://www.mcmod.cn/class/1388.html" },
+                { name: "Starlight", desc: "光照引擎优化库", tag: "链接", link: "https://www.mcmod.cn/class/3303.html" },
+                { name: "trenzalore", desc: "为数据包和配置提供通用支持", tag: "链接", link: "https://www.mcmod.cn/class/11708.html" },
+                { name: "WunderLib", desc: "为建筑和物品提供通用工具支持", tag: "链接", link: "https://www.mcmod.cn/class/24191.html" },
+                { name: "GlitchCore", desc: "粒子系统支持", tag: "链接", link: "https://www.mcmod.cn/class/13531.html" }
+            ]
+        },
+        {
+            category: "性能优化模组",
+            mods: [
+                { name: "embeddium", desc: "优化渲染管线", tag: "链接", link: "https://www.mcmod.cn/class/12028.html" },
+                { name: "entityculling", desc: "自动剔除视野外的实体渲染", tag: "链接", link: "https://www.mcmod.cn/class/3629.html" },
+                { name: "ferritecore", desc: "优化内存使用", tag: "链接", link: "https://www.mcmod.cn/class/3888.html" },
+                { name: "Jade", desc: "物品信息显示", tag: "链接", link: "https://www.mcmod.cn/class/3482.html" },
+                { name: "JadeAddons", desc: "添加更多模组支持", tag: "链接", link: "https://www.mcmod.cn/class/5837.html" },
+                { name: "modernfix", desc: "修复原版大量性能问题", tag: "链接", link: "https://www.mcmod.cn/class/8714.html" },
+                { name: "radium", desc: "优化区块渲染，提升地形加载速度", tag: "链接", link: "https://www.mcmod.cn/class/5580.html" },
+                { name: "tridentperf", desc: "优化实体性能", tag: "链接", link: "https://www.mcmod.cn/class/21889.html" },
+                { name: "wolttweaks", desc: "多项性能微调", tag: "链接", link: "#" }, /*标记*/
+                { name: "Chunky", desc: "预加载世界区块", tag: "链接", link: "https://www.mcmod.cn/class/6239.html" }
+            ]
+        },
+        {
+            category: "环境模组",
+            mods: [
+                { name: "aether", desc: "天境维度", tag: "链接", link: "https://www.mcmod.cn/class/94.html" },
+                { name: "BiomesOPlenty", desc: "超多生物群系", tag: "链接", link: "https://www.mcmod.cn/class/108.html" },
+                { name: "BetterNether", desc: "新增末地生物群系", tag: "链接", link: "https://www.mcmod.cn/class/1579.html" },
+                { name: "BetterNether", desc: "新增下界生物群系", tag: "链接", link: "https://www.mcmod.cn/class/1579.html" },
+                { name: "bettervillage", desc: "改造村庄生成", tag: "链接", link: "https://www.mcmod.cn/class/6569.html" },
+                { name: "Oh The Biomes Weve Gone", desc: "新增更多独特生物群系", tag: "链接", link: "https://www.mcmod.cn/class/22741.html" },
+                { name: "Oh The Trees Youll Grow", desc: "新增多种树木和植被", tag: "链接", link: "https://www.mcmod.cn/class/15809.html" },
+                { name: "SereneSeasons", desc: "四季变化", tag: "链接", link: "https://www.mcmod.cn/class/1132.html" },
+                { name: "SkyVillages", desc: "新增浮空村庄", tag: "链接", link: "https://www.mcmod.cn/class/5142.html" },
+                { name: "tidal-towns", desc: "新增潮汐村庄", tag: "链接", link: "https://www.mcmod.cn/class/11358.html" },
+                { name: "naturalist", desc: "新增多种野生动物", tag: "链接", link: "https://www.mcmod.cn/class/6840.html" },
+                { name: "fallingleaves", desc: "树叶自然飘落", tag: "链接", link: "https://www.mcmod.cn/class/4135.html" }
+            ]
+        },
+        {
+            category: "建筑装饰家具",
+            mods: [
+                { name: "another_furniture", desc: "新增大量风格化家具", tag: "链接", link: "https://www.mcmod.cn/class/7201.html" },
+                { name: "MrCrayfish'sFurniture", desc: "现代家具模组", tag: "链接", link: "https://www.mcmod.cn/class/263.html" },
+                { name: "medieval_buildings", desc: "新增建筑和装饰方块", tag: "链接", link: "https://www.mcmod.cn/class/12814.html" },
+                { name: "modern_glass_doors", desc: "新增玻璃门和窗户", tag: "链接", link: "https://www.mcmod.cn/class/1890.html" },
+                { name: "refurbished_furniture", desc: "翻新风格家具", tag: "链接", link: "https://www.mcmod.cn/class/15668.html" },
+                { name: "mcw-mcwfences", desc: "新增多种栅栏", tag: "链接", link: "https://www.mcmod.cn/class/7120.html" },
+                { name: "slabstoblocks", desc: "半砖合成完整方块", tag: "链接", link: "https://www.mcmod.cn/class/20840.html" }
+            ]
+        },
+        {
+            category: "实用辅助 ",
+            mods: [
+                { name: "AppleSkin", desc: "在饥饿条上显示饱和度", tag: "链接", link: "https://www.mcmod.cn/class/744.html" },
+                { name: "catalogue", desc: "模组列表优化界面", tag: "链接", link: "https://www.mcmod.cn/class/3743.html" },
+                { name: "craftingtweaks", desc: "优化合成界面", tag: "链接", link: "https://www.mcmod.cn/class/1501.html" },
+                { name: "CustomSkinLoader", desc: "加载自定义皮肤", tag: "链接", link: "https://www.mcmod.cn/class/883.html" },
+                { name: "InventoryProfilesNex", desc: "	背包管理工具", tag: "链接", link: "https://www.mcmod.cn/class/4104.html" },
+                { name: "jei", desc: "物品合成指南", tag: "链接", link: "https://www.mcmod.cn/class/459.html" },
+                { name: "jeiintegration", desc: "JEI扩展", tag: "链接", link: "https://www.mcmod.cn/class/2077.html" },
+                { name: "kaleidoscopecookery", desc: "烹饪配方优化", tag: "链接", link: "https://www.mcmod.cn/class/20850.html" },
+                { name: "Patchouli", desc: "帕秋莉手册", tag: "链接", link: "https://www.mcmod.cn/class/1388.html" },
+                { name: "Pehkui", desc: "起源扩展", tag: "链接", link: "https://www.mcmod.cn/class/3204.html" },
+                { name: "sneaky_tree_growing", desc: "蹲起树生长", tag: "链接", link: "https://www.mcmod.cn/class/1123.html" },
+                { name: "torchcherino", desc: "加速火把", tag: "链接", link: "https://www.mcmod.cn/class/587.html" },
+                { name: "waystones", desc: "传送石碑", tag: "链接", link: "https://www.mcmod.cn/class/1339.html" },
+                { name: "xaerominimap", desc: "右上角小地图", tag: "链接", link: "https://www.mcmod.cn/class/1701.html?tdsourcetag=s_pcqq_aiomsg" },
+                { name: "xaeroworldmap", desc: "全屏大地图", tag: "链接", link: "https://www.mcmod.cn/class/1483.html" },
+            ]
+        },
+        {
+            category: "玩法冒险拓展模组",
+            mods: [
+                { name: "alexsmobs", desc: "新增生物", tag: "链接", link: "https://www.mcmod.cn/class/3318.html" },
+                { name: "AmbientSounds", desc: "新增大量环境音效", tag: "链接", link: "https://www.mcmod.cn/class/2947.html" },
+                { name: "bakeries", desc: "新增面包店系统", tag: "链接", link: "https://www.mcmod.cn/class/18100.html" },
+                { name: "better_climbing", desc: "优化攀爬机制", tag: "链接", link: "https://www.mcmod.cn/class/7258.html" },
+                { name: "carryon", desc: "可抱起方块实体", tag: "链接", link: "https://www.mcmod.cn/class/1081.html" },
+                { name: "cookingforblockheads", desc: "烹饪系统扩展", tag: "链接", link: "https://www.mcmod.cn/class/468.html" },
+                { name: "exposure", desc: "相机模组", tag: "链接", link: "https://www.mcmod.cn/class/12905.html" },
+                { name: "elytra_crafting", desc: "鞘翅可修复", tag: "链接", link: "https://www.mcmod.cn/class/13084.html" },
+                { name: "FarmersDelight", desc: "农业扩展", tag: "链接", link: "https://www.mcmod.cn/item/382036.html" },
+                { name: "ftb-library", desc: "FTB 系列模组的前置库", tag: "链接", link: "https://www.mcmod.cn/post/5323.html" },
+                { name: "ftb-quests", desc: "任务系统", tag: "链接", link: "https://www.mcmod.cn/class/1423.html" },
+                { name: "ftb-teams", desc: "团队系统", tag: "链接", link: "https://www.mcmod.cn/class/3179.html" },
+                { name: "ftb-ultimine", desc: "连锁挖矿", tag: "链接", link: "https://www.mcmod.cn/class/3004.html" },
+                { name: "fruitsdelight", desc: "水果扩展", tag: "链接", link: "https://www.mcmod.cn/class/12920.html" },
+                { name: "dragonmounts", desc: "龙骑士", tag: "链接", link: "https://www.mcmod.cn/class/228.html" },
+                { name: "Geckolib", desc: " Alex's Mobs前置", tag: "链接", link: "https://www.mcmod.cn/class/3232.html" },
+                { name: "sophisticatedbackpacks", desc: "可升级的背包", tag: "链接", link: "https://www.mcmod.cn/class/3739.html" },
+                { name: "sophisticatedstorage", desc: "高级存储系统", tag: "链接", link: "https://www.mcmod.cn/class/6711.html" },
+                { name: "twilightforest", desc: "暮色森林", tag: "链接", link: "https://www.mcmod.cn/class/61.html" },
+                { name: "smallships", desc: "小型船只模组", tag: "链接", link: "https://www.mcmod.cn/class/4683.html" },
+                { name: "terrestria", desc: "新增多种生物群系", tag: "链接", link: "https://www.mcmod.cn/class/4952.html" }
+            ]
+        },
+        {
+            category: "机械动力及附加",
+            mods: [
+                { name: "create", desc: "机械动力本体", tag: "链接", link: "https://www.mcmod.cn/class/2021.html" },
+                { name: "create", desc: "机械动力本体", tag: "链接", link: "#" }
+            ]
+        },
+        {
+            category: "东方模组",
+            mods: [
+                { name: "touhoulittlemaid", desc: "东方女仆", tag: "链接", link: "https://www.mcmod.cn/class/1796.html" },
+                { name: "youkaishomecoming", desc: "妖怪们的归家，农夫乐事附属", tag: "链接", link: "https://www.mcmod.cn/class/13185.html" }
+            ]
+        }
+    ];
+
+    // 生成模组列表HTML
+    function renderMods() {
+        const container = document.getElementById('mods-container');
+        container.innerHTML = '';
+
+        modsData.forEach(categoryData => {
+            // 创建分类容器
+            const categoryDiv = document.createElement('div');
+            categoryDiv.className = 'mod-category';
+
+            // 创建分类标题
+            const categoryTitle = document.createElement('h3');
+            categoryTitle.textContent = categoryData.category;
+            categoryDiv.appendChild(categoryTitle);
+
+            // 创建模组网格
+            const modGrid = document.createElement('div');
+            modGrid.className = 'mod-grid';
+
+            // 生成每个模组卡片
+            categoryData.mods.forEach(mod => {
+                const modCard = document.createElement('div');
+                modCard.className = 'mod-card';
+
+                // 模组名称
+                const modName = document.createElement('div');
+                modName.className = 'mod-name';
+                modName.textContent = mod.name;
+
+                // 模组描述
+                const modDesc = document.createElement('div');
+                modDesc.className = 'mod-desc';
+                modDesc.textContent = mod.desc;
+
+                // 模组标签
+                const modTag = document.createElement('span');
+                modTag.className = 'mod-tag';
+                
+                if (mod.link) {
+                    // 有链接的标签
+                    const link = document.createElement('a');
+                    link.href = mod.link;
+                    link.textContent = mod.tag;
+                    modTag.appendChild(link);
+                } else {
+                    // 无链接的标签
+                    modTag.textContent = mod.tag;
+                }
+
+                // 组装卡片
+                modCard.appendChild(modName);
+                modCard.appendChild(modDesc);
+                modCard.appendChild(modTag);
+                modGrid.appendChild(modCard);
+            });
+
+            // 组装分类
+            categoryDiv.appendChild(modGrid);
+            container.appendChild(categoryDiv);
+        });
+    }
+
+    // 页面加载时渲染模组列表
+    window.addEventListener('DOMContentLoaded', renderMods);
+</script>
+</body>
+</html>

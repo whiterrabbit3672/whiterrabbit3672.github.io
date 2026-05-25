@@ -1,0 +1,166 @@
+<!doctype html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>test</title>
+    <link rel="stylesheet" type="text/css" href="homepage.css">
+    <link href="https://fonts.googleapis.com/css2?family=Minecraft&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1><span class="minecraft-font">1.20.1 #forge<a href="https://files.minecraftforge.net/net/minecraftforge/fmlonly/index_1.20.1.html"></a></span>模组服务器</h1>
+            <nav>
+                <ul>
+                    <li><a href="../st">起始页</a></li>
+                    <li><a href="mods.html">服务器模组列表</a></li>    
+                    <li><a href="../">旧的服务器</a></li>
+                    <li><a href="https://thwiki.cc/-/82b2">服务器所属社团</a></li>
+                </ul>
+            </nav>
+        </header>
+        
+        <main>
+            <section class="hero">
+                <div class="carousel-container">
+                    <div class="carousel-slide">
+                        <img src="homepage.png" alt="Minecraft服务器展示图1" class="carousel-img">
+                        <img src="homepage.png" alt="Minecraft服务器展示图2" class="carousel-img">
+                        <img src="homepage.png" alt="Minecraft服务器展示图3" class="carousel-img">
+                        <img src="homepage.png" alt="Minecraft服务器展示图4" class="carousel-img">
+                        <img src="homepage.png" alt="Minecraft服务器展示图5" class="carousel-img">
+                    </div>
+                    <button class="carousel-btn carousel-btn-left">&lt;</button>
+                    <button class="carousel-btn carousel-btn-right">&gt;</button>
+                </div>
+            </section>
+            
+            <section class="about">
+                <h2>关于服务器</h2>
+                <div class="links">
+                    <a href="https://www.bilibili.com/video/BV1T2qkYAEwT/" class="btn" target="_blank">服务器宣传片</a><a href="https://www.bilibili.com/video/BV1VkghzHEcE/" class="btn" target="_blank">一周年纪念片</a>
+                    <a href="MRT.png" class="btn">地铁地图</a>
+                    <a href="MAP.test" class="btn">地图</a>
+                    <a href="https://github.com/whiterrabbit3672/whiterrabbit3672.github.io/discussions/1" class="btn">讨论区</a>
+                </div>
+                
+                <div class="server-info">
+                <h3>服务器Q群: 763521121</h3>
+                <h3>所属社团: 854152129</h3>
+                <h2>公告&nbsp;</h2>
+                <h3>整合包已更新至1.0.3</h3>
+                <h2>如何加入服务器&nbsp;</h2>
+                <h3>服务器地址</h3>
+                <h3>主地址:ex.toho.asia   &nbsp; &nbsp;</h3>
+                <ol>
+                    <li id="li1"><h3>进入服务器前请前往Q群下载对应的整合包</h3></lli>
+                    <li id="li1"><h3>导入PCL启动器，选择对应整合包</h3></li>
+                    <li id="li1"><h3>进入版本设置，最左边选择设置</h3></li>
+                    <li id="li1"><h3>最下面服务器，登陆方式选择第三方登录：Authlib Injector 或LittleSkin登录</h3></li>
+                    <li id="li1"><h3>选择设置为LittleSkin认证</h3></li>
+                    <li id="li1"><h3>然后登陆https://littleskin.cn/并注册</h3></li>
+                    <li id="li1"><h3>返回PCL选择信息登录即可</h3></li>
+                    <li id="li1"><h3>启动后选择多人游戏</h3></li>
+                    <li id="li1"><h3>选择添加服务器</h3></li>
+                    <li id="li1"><h3>服务器地址填入ex.toho.asia</h3></li>
+                    <li id="li1"><h3>然后加入游戏即可</h3></li>
+                </ol>
+                    <div class="links"></div>
+                    <a href="https://whitealco.github.io/2023/11/19/pifukudenglu/" class="btn">不会的看这里</a>
+                    </div>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<div class="staff">
+            <div class="staff-card">
+                            <h4>群主</h4>
+                            <p>Mr.白兔</p>
+                        </div>
+                        <div class="staff-card">
+                            <h4>管理</h4>
+                            <p>EX768</p>
+                        </div>
+                        <div class="staff-card">
+                            <h4>前管理</h4>
+                            <p>Turf_Soil</p>
+                        </div>
+                        <div class="staff-card">
+                          <h4>代理服务器服主&nbsp;</h4>
+                          <p>NagaeIku</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <section class="servers"> </section>
+        </main>
+        
+        <footer>
+            <p>&copy; . 保留所有权利.</p>
+        </footer>
+    </div>
+
+    <script>
+        const carouselSlide = document.querySelector('.carousel-slide');
+        const carouselImages = document.querySelectorAll('.carousel-img');
+        const prevBtn = document.querySelector('.carousel-btn-left');
+        const nextBtn = document.querySelector('.carousel-btn-right');
+        
+        let counter = 0;
+        let imgWidth = carouselImages[0].clientWidth;
+
+
+        window.addEventListener('load', () => {
+            imgWidth = carouselImages[0].clientWidth;
+            carouselSlide.style.transform = `translateX(-${counter * imgWidth}px)`;
+        });
+
+        window.addEventListener('resize', () => {
+            imgWidth = carouselImages[0].clientWidth;
+            carouselSlide.style.transform = `translateX(-${counter * imgWidth}px)`;
+        });
+
+        nextBtn.addEventListener('click', () => {
+            if (counter >= carouselImages.length - 1) {
+                counter = 0;
+            } else {
+                counter++;
+            }
+            carouselSlide.style.transform = `translateX(-${counter * imgWidth}px)`;
+        });
+
+        prevBtn.addEventListener('click', () => {
+            if (counter <= 0) {
+                counter = carouselImages.length - 1;
+            } else {
+                counter--;
+            }
+            carouselSlide.style.transform = `translateX(-${counter * imgWidth}px)`;
+        });
+
+        let autoSlide = setInterval(() => {
+            if (counter >= carouselImages.length - 1) {
+                counter = 0;
+            } else {
+                counter++;
+            }
+            carouselSlide.style.transform = `translateX(-${counter * imgWidth}px)`;
+        }, 3000);
+
+        const carouselContainer = document.querySelector('.carousel-container');
+        carouselContainer.addEventListener('mouseenter', () => {
+            clearInterval(autoSlide);
+        });
+        carouselContainer.addEventListener('mouseleave', () => {
+            autoSlide = setInterval(() => {
+                if (counter >= carouselImages.length - 1) {
+                    counter = 0;
+                } else {
+                    counter++;
+                }
+                carouselSlide.style.transform = `translateX(-${counter * imgWidth}px)`;
+            }, 3000);
+        });
+    </script>
+</body>
+</html>
